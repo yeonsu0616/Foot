@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="header">
+    <style>
+        .navbar {
+            border-bottom: 1px solid #ffffff;
+
+        }
+
+        .navbar-brand {
+            color: #000000;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .navbar-nav .nav-link {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        .icon-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-section img {
+            margin-left: 15px;
+        }
+
+        .badge {
+            background-color: red;
+            color: white;
+            font-size: 1rem;
+            top: -5px;
+            right: -10px;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            margin-left: auto; /* 링크들을 오른쪽으로 정렬 */
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #ff6600;
+            font-weight: bold;
+            font-size: 1.3rem; /* 폰트 크기 조정 */
+            margin-left: 10px; /* 좌측 여백 */
+            margin-right: 10px; /* 우측 여백 */
+        }
+
+        /* 검색바 스타일 */
+        .search-bar {
+
+           flex-grow: 1;
+           max-width: 600px;
+           text-align:center;
+           margin-left: 330px;
+       }
+       .search-bar input {
+           border: 2px solid #ccc;
+           border-radius: 20px;
+           padding: 5px 20px;
+           width: 100%;
+           height:50px;
+           margin:30px;
+       }
+
+        .search-bar img {
+            position: absolute;
+            left: 33px;
+            width: 20px;
+            height: 20px;
+            margin-top: 45px;
+        }
+    </style>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target=".collapse.navbar-collapse"
+                    aria-controls="navbarTogglerDemo03"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto" style="align-items:center;">
+                    <a class="navbar-brand" href="/">F&F</a>
+                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                        <a class="nav-link" href="/admin/item/new">매치 등록</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                        <a class="nav-link" href="/admin/items">매치 관리</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">찜</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/orders">신청이력</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/itemRec">추천 밀키트</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/members/delivery">배송조회</a>
+                    </li>
+                </ul>
+                <!-- 검색바 -->
+                <ul class="navbar-nav nav-links">
+                    <div class="search-bar">
+                        <form th:action="@{/}" method="get">
+                            <img src="/img/search.png" alt="search">
+                            <input name="searchQuery" class="form-control me-2" type="search"
+                                   placeholder="지역,구장,팀 이름으로 찾기" aria-label="Search">
+                        </form>
+                    </div>
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <a class="nav-link" href="/members/login">
+                            <img src="/img/person.png" alt="로그인" style="width: 50px; height: 50px; margin-top: 23px; margin-left: 10px;">
+                        </a>
+                    </li>
+<!--                    <li class="nav-item" sec:authorize="isAuthenticated()">-->
+<!--                        <a class="nav-link" href="/members/logout">-->
+<!--                            <img src="/img/logout.png" alt="로그아웃" style="width: 50px; height: 50px; margin-top: 23px; margin-left:20px;">-->
+<!--                        </a>-->
+<!--                    </li>-->
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" href="/members/memberinfo">
+                            <img src="/img/person.png" alt="프로필 정보" style="width: 50px; height: 50px; margin-top: 23px; margin-left:20px;">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+</html>

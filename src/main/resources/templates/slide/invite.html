@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>친구 초대 이벤트</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .banner {
+            text-align: center;
+            color: #000;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            padding: 20px;
+        }
+
+        .video {
+            object-fit: contain;
+            overflow-clip-margin: content-box;
+            overflow: clip;
+        }
+
+        .content .video iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .promotion .prizes img {
+            width: 100px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #000;
+            font-size: 16px;
+            border-top: 1px solid #f1c40f;
+        }
+        .one-prologue{
+            display: flex;
+            width: 100%;
+            padding: 30px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            background: #ffeb33
+        }
+        .section-title{
+            color: #282b33;
+            text-align: center;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 900;
+            line-height: 36px;
+            letter-spacing: -0.3px;
+        }
+        .section-description{
+            color: #282b33;
+            text-align: center;
+            font-size: 16px;
+             font-style: normal;
+            font-weight: 500;
+           line-height: 24px;
+             letter-spacing: -0.3px;
+        }
+        .two-summary-invite{
+            display: flex;
+            width: 100%;
+            padding: 108px 36px;
+            flex-direction: column;
+            justify-content: center;
+         align-items: center;
+          gap: 28px;
+          background-image: url(https://d31wz4d3hgve8q.cloudfront.net/static/img/event/wnn/invite/2-summary-bg3.png);
+         background-size: contain;
+         background-position: top;
+         background-repeat: no-repeat;
+     }
+     .seven-summary-movie-title{
+        color: var(--gray-gray700, #4b5a64);
+        text-align: center;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.3px;
+     }
+     .three-summary-invite{
+        display: flex;
+        width: 100%;
+        padding: 54px 20px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        background: #ffeb33;
+    }
+    .three-summary-invite-header{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    align-self: stretch;
+    }
+    .three-summary-invite-header-date{
+        display: flex;
+    padding: 4px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #1570ff;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.3px;
+    }
+    .three-summary-invite-slide-container{
+        margin: 8px 0;
+    position: relative;
+    height: 30px;
+    overflow: hidden;
+    text-align: center;
+    font-family: "DungGeunMo";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 36px;
+    letter-spacing: -0.3px;
+    }
+    .three-summary-invite-slide-item{
+        width:100%;
+        text-align: center;
+        transition: opacity.5s, transform.5s;
+    }
+    .three-summary-invite-body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap:36px;
+        align-self: stretch;
+    }
+    .three-summary-invite-body-prize{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap:12px;
+        align-self: stretch;
+    }
+    .three-summary-invite-body-prize-item-list{
+        width:100%;
+        display: flex;
+        align-items: flex-start;
+        gap:12px;
+        align-self: stretch;
+    }
+    .three-summary-invite-body-prize-item{
+        width:100%;
+        position: relative;
+        background: #ffffff;
+    }
+    .three-summary-invite-body-prize-item-image{
+        display: block;
+        width:100%;
+        height: 135px;
+        object-fit: contain;
+    }
+    .three-summary-invite-body-prize-count{
+        position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    padding: 4px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: -0.3px;
+    border-radius: 24px;
+    background: #282b33;
+}
+.three-summary-invite-body-prize-title{
+    display: flex;
+    padding: 8px 4px;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    color: #282b33;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: -0.3px;
+    background: #e8f7ff;
+}
+.three-summary-invite-body-prize-coupon{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1 0 0;
+    color: var(--gray-gray900, #282b33);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: -0.3px;
+}
+.three-summary-invite-body-prize-header{
+    width: 100%;
+    display: flex;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    background: #e8f7ff;
+}
+.three-summary-invite-body-prize-coupon-count{
+    display: flex;
+    padding: 4px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: -0.3px;
+    border-radius: 24px;
+    background: #282b33;
+}
+.three-summary-invite-body-btn-add{
+    color: var(--gray-gray900, #282b33);
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.3px;
+}
+    </style>
+<body>
+<div layout:fragment="content" class="form-container">
+    <div style="width:100vw; max-width: 480px; margin: 0 auto;">
+        <div class="banner">
+            <img src="/img/banner-image.jpg" alt="Banner Image">
+        </div>
+        <div class="one-prologue">
+            <div class="section-title">
+                그때도 지금도
+                <br>
+                축구는 재밌으니까
+            </div>
+            <div class="section-description">
+                어릴 때 같이 축구했던 친구들을 기억하나요?
+                <br>
+                친구 초대하고 애플워치 받아요
+            </div>
+        </div>
+        <div class="two-summary-invite">
+            <div class="section-title">
+                축구공만 있어도
+                <br>
+                행복했던 그 시절
+            </div>
+            <div class="section-description">
+                종 치자마자 뛰어나갔던 운동장
+                <br>
+                교복에 슬리퍼 신고 땀 흘리던 친구들
+                <br>
+                우리 반이 한 팀으로 공을 찼던 체육대회
+                <br>
+                <br>
+                우리는 축구의 즐거움과 함께 자랐어요.
+            </div>
+            <video width="100%" controls="controls" muted="muted" playsinline preload="metadata"
+                   poster="https://d31wz4d3hgve8q.cloudfront.net/static/img/event/wnn/intive/WNN_video_thumbnail_invite.jpg">
+                <source src="https://d31wz4d3hgve8q.cloudfront.net/media/WNN_invite_v1.mp4" type="video/mp4">
+                <source src="https://d31wz4d3hgve8q.cloudfront.net/media/WNN_invite_v1.mp4" type="video/webm">
+            </video>
+            <div class="seven-summary-movie-title">그때도 지금도 축구는 재밌으니까| WHY NOT NOW</div>
+        </div>
+        <div class="three-summary-invite">
+            <div class="three-summary-invite-header">
+                <div class="three-summary-invite-header-title">
+                    <div class="three-summary-invite-header-date">8월 1일 - 10월 10일</div>
+                </div>
+                <div class="section-title three-summay-slide">
+                    지금 초대하고
+                    <br>
+                    <div class="three-summary-invite-slide-container">
+                        <div class="three-summary-invite-slide-item activate active">유니폼</div>
+                    </div>
+                    받아요
+                </div>
+            </div>
+            <div class="section-description">
+                많이 초대할수록 당첨 확률이 올라가요
+                <br>
+                내가 초대한 친구가 매치 참가하면 자동 응모
+            </div>
+
+            <div class="three-summary-invite-body">
+                <div class="three-summary-invite-body-prize">
+                    <div style="width: 100%;">
+                        <div class="three-summary-invite-body-prize-item-list">
+                            <div class="three-summary-invite-body-prize-item">
+                                <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/event/wnn/invite/3-prize-uniform.png"
+                                     class="three-summary-invite-body-prize-item-image">
+                                <div class="three-summary-invite-body-prize-count">3명</div>
+                                <div class="three-summary-invite-body-prize-title">
+                                    추억의 선수
+                                    <br>
+                                    유니폼
+                                </div>
+                            </div>
+                            <div class="three-summary-invite-body-prize-item">
+                                <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/event/wnn/invite/3-prize-watch.png"
+                                     class="three-summary-invite-body-prize-item-image">
+                                <div class="three-summary-invite-body-prize-count">3명</div>
+                                <div class="three-summary-invite-body-prize-title">
+                                    애플 워치SE2
+                                    <br>
+                                    + 워치 밴드
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="three-summary-invite-body-prize-coupon">
+                        <div class="three-summary-invite-body-prize-header">
+                            <div class="three-summary-invite-body-prize-coupon">
+                                소셜 매치
+                                <br>
+                                무료 이용권
+                            </div>
+                            <div class="three-summary-invite-body-prize-coupon-count">50명</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="three-summary-invite-body-btn-add">당첨자 발표: 2024년 10월 10일</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

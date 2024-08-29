@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <style>
+        .content-mg {
+            margin: auto;
+            max-width: 900px;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-header h4 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .btn-cancel {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e60000;
+        }
+
+        .order-card {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .order-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .repImg {
+            height: 120px;
+            width: 120px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .order-details {
+            flex-grow: 1;
+        }
+
+        .order-details .fs24 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .order-details .fs18 {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .pagination .page-link {
+            font-size: 1.1rem;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+        }
+
+    </style>
+</head>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function cancelOrder(orderId){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var url = "/order/" + orderId +"/cancel";
+            var paramData = {
+                orderId : orderId,
+            }
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url : url,
+                type : "POST",
+                contentType : "application/json",
+                data : param,
+                beforeSend : function(xhr){
+                    /*데이터 전송하기 전에 헤더에 csrf 값을 설정*/
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType : "json",
+                cache : false,
+                success : function(result, status){
+                    alert("주문이 취소 되었습니다.");
+                    location.href='/orders/'+[[${page}]];
+                },
+                error : function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert('로그인 후 이용해주세요.');
+                        location.href='/members/login';
+                    }else{
+                        alert(jqXHR.responseText);
+                    }
+                }
+            });
+         }
+    </script>
+</th:block>
+
+<div layout:fragment="content" class="content-mg">
+    <h2>신청 내역</h2>
+    <div th:each="order : ${orders.getContent()}">
+        <div class="order-header">
+            <h4 th:text="${order.orderDate} + ' 신청'"></h4>
+            <div>
+                <th:block th:if="${order.orderStatus == T(com.example.foot.constant.OrderStatus).ORDER}">
+                    <button type="button" class="btn-cancel" th:value="${order.orderId}"
+                            onclick="cancelOrder(this.value)">신청 취소</button>
+                </th:block>
+                <th:block th:unless="${order.orderStatus == T(com.example.foot.constant.OrderStatus).ORDER}">
+                    <h4 style="color: #888;">(취소 완료)</h4></th:block>
+            </div>
+        </div>
+
+        <div class="order-card">
+            <div th:each="orderItem : ${order.orderItemDtoList}" class="order-item">
+                <img th:src="${orderItem.imgUrl}" class="repImg" th:alt="${orderItem.itemNm}">
+                <div class="order-details">
+                    <span th:text="${orderItem.itemNm}" class="fs24"></span>
+                    <div class="fs18">
+                        <span th:text="'주소: ' + ${orderItem.playAddress}"></span><br>
+                        <span th:text="'매치 시간: ' + ${orderItem.playDate}"></span>
+                        <span th:text="${orderItem.playTime}"></span><br>
+                        <span th:text="${orderItem.orderPrice} +'원'"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:with="start=${(orders.number/maxPage)*maxPage +1},
+        end=(${(orders.totalPages == 0) ? 1 : (start + (maxPage-1) < orders.totalPages ?
+        start + (maxPage - 1) : orders.totalPages)})">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${orders.number eq 0}?'disabled' : ''">
+                <a th:href="@{'/orders/'+ ${orders.number-1}}" aria-label='Previous' class="page-link">
+                    <span aria-hidden="true">Previous</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
+                th:classappend="${orders.number eq page-1}?'active':''">
+                <a th:href="@{'/orders/'+ ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+            </li>
+            <li class="page-item" th:classappend="${orders.number+1 ge orders.totalPages}?'disabled' : ''">
+                <a th:href="@{'/orders/'+ ${orders.number+1}}" aria-label="Next" class="page-link">
+                    <span aria-hidden="true">Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</html>

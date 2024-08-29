@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>친구 초대 이벤트</title>
+    <style>
+        .content_wrap{
+            margin: 0 auto;
+            background-color: #f2f5f7;
+        }
+        .content_body{
+            display: flex;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        .content-body_wrap{
+            background-color: white;
+
+        }
+        #magazineArticleApp .section-wide{
+            margin-bottom: 0;
+        }
+        .section-wide{
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        .magazine-article_cover{
+            margin-bottom: 40px;
+        }
+        .img{
+            vertical-align: middle;
+             width:100%;
+            min-width: 80px;
+        }
+        #magazineArticleApp .img{
+            width:100%;
+            min-width: 80px;
+        }
+        .magazine-article_title{
+            margin: 0 40px 20px 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #282b33;
+        }
+        .magazine-article_title h1{
+            font-size: 40px;
+            font-weight: 700;
+            word-break: keep-all;
+        }
+        .section{
+            background-color: white;
+            padding:0px;
+        }
+        .section_body{
+            padding:0px 20px 24px 20px;
+        }
+        .magazine-article_content{
+            border-bottom: 1px solid #ddd;
+            padding: 40px;
+            vertical-align: baseline
+        }
+        .magazine-article_content h3{
+            font-size: 24px;
+            margin-bottom: 20px;
+            width: 60%;
+            font-weight: 500;
+            word-break: keep-all;
+        }
+        .magazine-article_content pre{
+            color:#595e68;
+            font-size: 18px;
+            line-height: 26px;
+            word-break: keep-all;
+            font-family: "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", "dotum", "gulim", sans-serif;
+            padding-left: 0;
+            margin-left: 0;
+            white-space: pre-wrap; /* 줄바꿈만 유지 */
+            text-align: left; /* 왼쪽 정렬 */
+        }
+        #magazineArticleApp .section {
+    margin-bottom: 0;
+}
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="form-container">
+    <div id="magazineArticleApp" class="content">
+        <div class="content_wrap">
+            <div class="content_body">
+                <div class="content-body_wrap" style="background-color: transparent;">
+                    <section class="section-wide">
+                        <div class="magazine-article_cover">
+                            <img src="/img/2.png">
+                        </div>
+                        <div class="magazine-article_title">
+                            <h1>F&F 소셜 문화 가이드</h1>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>F&F 소셜 문화 함께 해요</h3>
+                                <pre>
+F&F 소셜 문화 가이드는 즐겁고 활기찬 F&F을 위해 만들어졌어요. F&F은 함께하는 즐거움의 가치를 중요하게 생각해요. 플래버들과 함께 패스와 움직임을 통해 만든 플레이의 기쁨, 함께 나는 환호를 기억하기 바라요.
+
+긍정 에너지가 넘치는 그라운드를 만들기 위해 계속해서 노력할게요. F&F 소셜 문화에 동참해 주세요!
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>모두의 시간은 소중해요</h3>
+                                <pre>
+● 매치가 정시에 시작할 수 있도록 10분 전 풋살장에 도착해요
+● 늦을 때는 미리 매니저에게 알려요
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>이타적인 플레이를 해요</h3>
+                                <pre>
+● 긴 드리블보다 패스를 주고받으며 플레이를 만들어요
+● 모든 포지션에서 열심히 뛰어요
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>실력, 성별 상관없이 모두 즐거워요</h3>
+                                <pre>
+● 실력에 상관없이 함께 플레이를 만들어요
+● 혼자 오는 사람들이 소외되지 않도록 친분을 과도하게 드러내지 않아요
+● 상대팀의 멋진 득점에 존중의 박수를 보내요
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>다치지 않고 건강하게 해요</h3>
+                                <pre>
+● 풋살화를 신어요
+● 서로에게 위협을 가하는 플레이(백 태클, 사람을 향한 슈팅)는 자제해요
+● 파울을 하면 잠시 경기를 멈춰요
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

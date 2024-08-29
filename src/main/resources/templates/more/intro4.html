@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구장 제휴</title>
+    <style>
+        .content{
+
+        }
+        .content_wrap{
+            margin: 0 auto;
+            background-color: #f2f5f7;
+        }
+        .content_body{
+
+        }
+        .content-body_wrap{
+            background-color: white;
+
+        }
+        #magazineArticleApp .section-wide{
+            margin-bottom: 0;
+        }
+        .section-wide{
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        .magazine-article_cover{
+            margin-bottom: 40px;
+        }
+        #magazineArticleApp .img{
+            width:100%;
+            min-width: 80px;
+        }
+        .magazine-article_content img{
+            width: 400px;
+            display: block;
+            margin-top: 40px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .magazine-article_title{
+            padding-bottom: 20px;
+        }
+        .magazine-article_title h1{
+            font-size: 40px;
+            font-weight: 700;
+            word-break: keep-all;
+            text-align: center;
+        }
+        .section{
+            background-color: white;
+            padding:0px;
+        }
+        .section_body{
+            padding:0px 20px 24px 20px;
+        }
+        .magazine-article_content{
+            padding: 40px;
+            vertical-align: baseline
+        }
+        .magazine-article_content h3{
+            font-size: 24px;
+            margin-bottom: 20px;
+            width: 60%;
+            font-weight: 500;
+            word-break: keep-all;
+        }
+        .magazine-article_content pre{
+            color:#595e68;
+            font-size: 18px;
+            line-height: 26px;
+            word-break: keep-all;
+            font-family: "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", "dotum", "gulim", sans-serif;
+            padding-left: 0;
+            margin-left: 0;
+            white-space: pre-wrap; /* 줄바꿈만 유지 */
+            text-align: left; /* 왼쪽 정렬 */
+        }
+        #magazineArticleApp .section {
+            margin-bottom: 0;
+        }
+        .subFeature ul li p{
+            color:#999;
+            line-height:24px;
+        }
+        .subFeature{
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+         .subFeature ul {
+            display: flex;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+         .subFeature ul li{
+            flex:1;
+            margin-right:10px;
+        }
+        .subFeature ul li:last-child {
+            margin-right: 0; /* 마지막 요소의 오른쪽 마진 제거 */
+        }
+        .featureTxt h3{
+             text-align: center;
+        }
+        .slideshow-container{
+            width: 100%;
+            position: relative;
+            margin: auto;
+            overflow: auto;
+        }
+        .quoteImg{
+           width: 50%;
+           float: left;
+        }
+        .quoteText{
+           margin: 0;
+          padding: 60px;
+          font-size: 20px
+          margin: 16px 0;
+            display: flex;
+            justify-content: center;
+            color: black;
+            font-size: 12px;
+            font-family: Inter;
+            font-weight: 700;
+            text-align: center;
+        }
+        .aboutSec secImg{
+            background-image: url(https://d31wz4d3hgve8q.cloudfront.net/static/img/cover_about_03.png);
+                width: 100%;
+                height: 250px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+        }
+        .aboutSec secTitle{
+            text-align:center;
+            padding: 20px;
+        }
+        .aboutSec secTitle h2{
+            font-size: 24px;
+            margin: 20px 0;
+            line-height: 28px;
+            animation: titleFadeIn 1.5s ease;
+            animation-fill-mode: forwards;
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        .aboutSec secTitle span{
+            font-size: 20px;
+            color: #999;
+            font-weight: 300;
+            word-break: keep-all;
+        }
+        .aboutSec{
+            width: 100%;
+            position: relative;
+            font-family: "Spoqa Han Sans", "Spoqa Han Sans JP", "Sans-serif";
+            letter-spacing: -0.3px;
+            overflow: auto;
+        }
+        .aboutSec reverse{
+            margin-top:30px;
+        }
+        .aboutSec secImg{
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .text {
+    max-width: 50%;
+    margin-right:20px;
+    text-align:center;
+}
+
+.text .whenever {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin:0;
+}
+
+ul li {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+.text li{
+background: rgba(251, 237, 214, 1);
+    font-weight: 300
+}
+.image{
+    flex-shrink:0;
+    margin-top:20px;
+
+.image img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+        .letter quote{
+        font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 20px;
+        }
+        .letter p {
+    margin-bottom: 16px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* 컨테이너 스타일 */
+.container36 {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 각 박스 스타일 */
+.container36 box {
+    width: 48%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 영역 스타일 */
+.container36 .title {
+    display: flex;
+    align-items: center;
+    background-color: #f7fafc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.box icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* 강조 표시된 텍스트 스타일 */
+.box highlight {
+    color: #1a202c;
+    font-weight: bold;
+}
+
+/* 본문 내용 스타일 */
+.box content {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="form-container">
+    <div id="magazineArticleApp" class="content">
+        <div class="content_wrap">
+            <div class="content_body">
+                <div class="content-body_wrap" style="background-color: transparent;">
+                    <section class="section-wide">
+                        <div class="magazine-article_cover">
+                            <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F3a8d4cae-be0b-4491-a9eb-11ce2782952c%2FUntitled_(1).png?table=block&id=d1e51463-c204-4165-8337-e9a8bde2ba8c&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=2000&userId=&cache=v2"
+                                 style="display: block; object-fit: cover; border-radius: 0px; width: 100%; height: 30vh; opacity: 1; object-position: center 50%;">
+
+                        </div>
+                        <div class="magazine-article_title">
+                            <h1 style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding-top: 3px; padding-left: 2px; padding-right: 2px; font-weight: inherit; margin: 0px; font-size:4rem;">구장주를 위한 F&F 서비스 소개서</h1>
+                        </div>
+                    </section>
+                    <section class="section" style="display: ruby-text;">
+                        <div class="section_body">
+                            <div class="magazine-article_content" style="display: flex; align-items: center;">
+                                <div class="text">
+                                    <p class="whenever" style="font-style:italic">Whenever, Wherever</p>
+                                    <ul>
+                                        <li>더 많은 사람들이 풋살을 즐길 수 있도록</li>
+                                        <li>더 많은 구장이 플랩의 60만 유저에게 닿도록</li>
+                                        <li>더 많은 구장이 매출을 늘릴 수 있도록</li>
+                                        <li>언제, 어디서나 F&F입니다.</li>
+                                    </ul>
+                                </div>
+                                <div class="image">
+                                    <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7793be09-8768-4265-b327-7109476d7dbd%2FDSC01511.jpg?table=block&id=6c9475bc-cc3d-4bf5-b950-6520b96e4b1d&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=1920&userId=&cache=v2"
+                                         style="width:600px;">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content"
+                                  style="padding:0; display: ruby-text;">
+                                <div class="letter">
+                                    <h1>안녕하세요, 구장주님!</h1>
+                                    <p class="quote">“내가 하고 싶을 때, 하고 싶은 운동을, 즐겁게”</p>
+                                    <p>플랩풋볼은 누구나 혼자와도 축구/풋살을 즐길 수 있는 소셜 스포츠 시장을 만들어가고 있습니다.</p>
+                                    <p>소셜 스포츠 시장이란,<br>
+                                        팀 위주 스포츠 시장의 한계를 넘어 개인이 원하는 곳에서 원하는 때에 팀 스포츠를 즐길 수 있도록 플랩이 개척한 새로운 시장입니다.</p>
+                                    <p>이제 사람들은 하고 싶을 때, 하고 싶은 곳에서 소셜로 축구/풋살에 참여합니다.<br>
+                                        팀원들이 모두 모이기 힘든 평일 오전에도, 자정에 가까운 심야 시간도 문제 없습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content" style="display: flex; max-width: 960px; margin: 0 auto;">
+                                <div class="video">
+                                    <iframe width="420" height="240" src="https://www.youtube.com/embed/hub3QKegvOE?rel=0"
+                                            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+                    clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
+                                <div class="text" style="padding:30px;">
+                                    <h2 style="background: rgba(231, 243, 248, 1);">축구/풋살 소셜 회원 수 60만</h2>
+                                    <p>현재 플랩풋볼을 통해 소셜 스포츠에 참여하고 있는 회원 수는 60만 명에 육박하며,<br>
+                                        그 수는 매달 빠르게 증가하고 있습니다.</p>
+                                    <p>전국 약 200여 개의 구장에서 한 달 10,000타임 이상의 소셜매치가 열리고 있으며,<br>
+                                        이를 통해 구장은 매달 안정적인 수익을 창출하고 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <div class="ct1">
+                                    <h2 style="text-align: center;">팀과 소셜의 시너지로 인한 매출 증대</h2>
+                                    <div class="image">
+                                        <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Ffde8913f-26c8-48a7-a59b-dbfe8012456a%2FUntitled.png?table=block&id=b48bf464-39b8-45b8-88e1-b20aac5fde59&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=1250&userId=&cache=v2"
+                                             alt="Team and Social Synergy"
+                                        style="width:800px;">
+                                    </div>
+                                    <div class="text"
+                                         style="display: contents; font-size: x-large;">
+                                        <p>팀 위주의 스포츠 시장에서 최소 10명 이상을 모아 구장을 대관하고 운동을 즐깁니다.</p>
+                                        <p>인원이 부족할 경우엔 급하게 커뮤니티를 통해 팀을 구하거나,
+                                            그마저도 어려운 경우엔 대관을 <br>취소하는 등 불편함이 있었지만,
+                                            이제는 소셜매치를 통해 언제나 문제없이 운동을 할 수 있습니다.</p>
+                                        <p>플랩풋볼은 팀 운동과 소셜 운동을 통해 구장의 매출을 더욱 극대화합니다.</p>
+                                    </div>
+                                    <p style="text-align: center;">팀과,개인 그리고 구장.<br>
+                                        모두의 즐거움을 위해 플랩이 존재합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content"
+                                 style="max-width:960px; margin:0 auto;">
+                                <div class="hh"
+                                      style="font-size: 20px;
+                                      padding: 10px; background-color: #eef2ff; border-left: 5px solid #5a67d8;  margin-bottom: 50px; display: inline-block;">
+                                    플랜과 구장의 공동 목표, 공실 최소화
+                                </div>
+                                <div class="container36"
+                                     style="display: flex; justify-content: space-evenly;">
+                                    <div class="box">
+                                        <div class="title"
+                                             style="display: flex;
+                                            align-items: center;
+                                            background-color: #f7fafc;
+                                            padding: 10px;
+                                            border-radius: 5px;
+                                            margin-bottom: 15px;
+                                            font-weight: bold;
+                                            display:inline-block;">
+                                            <span class="icon">💡</span>
+                                            <p>“오늘 20시에 대관 가능한가요?”<br>“3개월 대관 하고 싶은데 <span class="highlight">금요일 20시</span> 가능한가요?”</p>
+                                        </div>
+                                        <div class="info">
+                                            혹시 오늘 20시 타임 예약을 원하는 팀의 전화를 받은 적 <br>있으신가요? 이 예약이 있는 상태라 해당 고객에게 <br>아쉬운 답변을 하지 않으셨나요? 모두가 좋아하는
+                                        </div>
+                                        <div class="info">
+                                             평일 20시 또는 주말 이른 아침 시간대는 찾기 <br>힘든 타임입니다. 반면, 인기 타임을 제외한 다른 <br>타임에 대한 팀 수요는 매우 적은 편이죠.
+                                        </div>
+                                    </div>
+                                    <div class="box">
+                                        <div class="title"
+                                              style="display: flex;
+                                                align-items: center;
+                                                background-color: #f7fafc;
+                                                padding: 10px;
+                                                border-radius: 5px;
+                                                margin-bottom: 15px;
+                                                font-weight: bold;
+                                                display:inline-block;">
+                                            <span class="icon">💡</span>
+                                            <p><span class="highlight">평일 오전 9시</span>, 매일 밤 24시<br>플랩 소셜매치가 열리는 가장 이른 시각과 가장 늦은 시각</p>
+                                        </div>
+                                        <div class="info">
+                                            팀 운동을 위해 평일 오전 9시에 팀이 모이는 일은 매우 <br>어려운 일이지만, 개인에겐 그다지 어려운 일이 아닙니다.
+                                        </div>
+                                        <div class="info">
+                                            플랩은 개인이 원하는 시간에 운동할 수 있는 <br>소셜매치 매칭 서비스입니다. 유저의 선호 타임과 <br>지역, 구장 데이터를 기반으로 구장과 공실을 최소화 합니다.
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="image"
+                                     style="display:flex;">
+                                    <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6acf5e13-8b3b-4815-826f-91d093e26b4c%2FUntitled.png?table=block&id=1720098e-6462-49a9-acca-eaaa4f3fdf25&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=650&userId=&cache=v2">
+                                    <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F801a00bb-dae1-41b1-92aa-d13ffce8b068%2FUntitled.png?table=block&id=968de21c-b8f3-488e-b50f-fd8ba7d209a0&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=650&userId=&cache=v2">
+                                </div>
+                                <p style="text-align: center; margin-top: 40px;">
+                                    실제 플랩 소셜매치를 통해 기존의 공실을 효과적으로 줄이고, 월 매출을 증대시킨 구장 사례를 어렵지 않게 찾아볼 수 있습니다.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content"
+                                 style="max-width:960px; margin:0 auto;">
+                                <div class="hh"
+                                     style="font-size: 20px;
+                                      padding: 10px; background-color: #eef2ff; border-left: 5px solid #5a67d8;  margin-bottom: 50px; display: inline-block;">
+                                    플랩과의 제휴, 달라진 매출
+                                </div>
+                                <div class="case1" style="margin-bottom:50px;">
+                                    <div class="case-title">
+                                        <span style="line-height: normal;
+                                              background: rgba(135, 131, 120, .15);
+                                              color: #EB5757;
+                                              border-radius: 4px;
+                                              font-size: 85%;
+                                              padding: 0.2em 0.4em;
+                                              font-weight: 600;
+                                              display:inline-block;">
+                                            CASE 1.
+                                        </span>
+                                        2개면 보유 구장 매출 증대 사례
+                                    </div>
+                                    <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fb7fe297d-b35d-41ac-a5a3-ec33a8399bd3%2FUntitled.png?table=block&id=688a2275-4126-4a01-9c41-b8bc188c6436&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=1720&userId=&cache=v2" alt="매출 증대 사례 그래프"
+                                         style="width:100%;">
+                                </div>
+                                <div class="case2">
+                                    <div class="case-title">
+                                        <span style="line-height: normal;
+                                              background: rgba(135, 131, 120, .15);
+                                              color: #EB5757;
+                                              border-radius: 4px;
+                                              font-size: 85%;
+                                              padding: 0.2em 0.4em;
+                                              font-weight: 600;
+                                              display:inline-block;">
+                                            CASE 2.
+                                        </span>
+                                        제휴 서비스 통합으로 인한 매출 증대 사례
+                                    </div>
+                                    <div class="image"
+                                         style="display:flex;">
+                                        <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F9d999c93-a440-43ae-9d5c-82013d416c70%2FUntitled.png?table=block&id=7d5ccbcf-dc6e-41e8-9c0f-eab2c3176ded&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=2000&userId=&cache=v2">
+                                        <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F3dc9e5d2-17b2-4886-881f-90008eb8289f%2FUntitled.png?table=block&id=913d3b6c-1ba4-40bb-87d8-7aac4a22dd1d&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=2000&userId=&cache=v2">
+                                    </div>
+                                    <p style="margin:30px;">
+                                        `CASE 1` 과 `CASE 2` 모두 플랩과의 제휴를 통해 실제 매출이 증가한 구장들의 사례입니다.
+
+                                        구장은 제한된 공간과 시간을 얼만큼 채우냐에 따라 월 수익이 크게 달라집니다. 아무리 좋은 위치에서 좋은 구장 시설을 가지고 있다 해도 모두가 좋아하는 특정 타임만을 판매하는 것으로 절대 많은 수익을 기대할 수 없습니다.
+
+                                        플랩풋볼은 구장의 고민을 정확하게 알고, 명쾌하게 해결해 줄 수 있는 유일한 서비스입니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content"
+                                 style="max-width:960px; margin:0 auto;">
+                                <div class="hh"
+                                     style="font-size: 20px;
+                                      padding: 10px; background-color: #eef2ff; border-left: 5px solid #5a67d8;  margin-bottom: 50px; display: inline-block;">
+                                    플랩풋볼이라서 가능합니다.
+                                </div>
+                                <div class="image1">
+                                    <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F7f11f3de-0c79-4e93-ae91-ffc431cfff0c%2FUntitled.png?table=block&id=c4c787aa-5b02-4f60-b2b1-b464ea8ad95d&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=1250&userId=&cache=v2"
+                                          style="width:85%;">
+                                    <p style="text-align: center; margin-top: 35px;">
+                                        플랩풋볼은 45만 소셜매치 참가 고객 데이터와 플랩 고유의 다양한 콘텐츠로 구장 상황에 맞는 전략적 타임 활용이 가능합니다
+                                    </p>
+                                </div>
+                                <div class="image2" style="display:flex;">
+                                    <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fe666a65c-1fe6-4090-884f-5d93a6653409%2FUntitled.png?table=block&id=8b97cd5d-8f3e-4215-9960-f1e7fcd8ec7e&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=670&userId=&cache=v2">
+                                    <div class="ULLI" style="margin-top: 50px;">
+                                        <div class="mm">
+                                            <h2 style="background: rgba(251, 237, 214, 1);">
+                                                타임 세분화 및 데이터 기반 편성 기획
+                                            </h2>
+                                            <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 20px;">
+                                                <li style="margin-bottom: 5px;">요일, 타임별 상세 데이터 활용</li>
+                                                <li style="margin-bottom: 5px;">매치 타임에 따른 편성 전략 수립</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mm">
+                                            <h2 style="background: rgba(251, 237, 214, 1); display:inline-block;">온/오프라인 마케팅 지원</h2>
+                                            <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 20px;">
+                                                <li style="margin-bottom: 5px;">SNS 콘텐츠, 카탈로그 광고</li>
+                                                <li style="margin-bottom: 5px;">검색 광고(네이버, 구글)</li>
+                                                <li style="margin-bottom: 5px;">광고 메시지 발송(채널톡, 카카오톡)</li>
+                                                <li style="margin-bottom: 5px;">오프라인 배너</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="mm">
+                                            <h2 style="background: rgba(251, 237, 214, 1); display:inline-block;">일대일 파트너 담당자 컨설팅</h2>
+                                            <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 20px;">
+                                                <li style="margin-bottom: 5px;">구장 담당자 배정</li>
+                                                <li style="margin-bottom: 5px;">전략적 타임 활용 컨설팅 지원</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content"
+                                 style="max-width:960px; margin:0 auto;">
+                                <div class="hh"
+                                     style="font-size: 20px;
+                                      padding: 10px; background-color: #eef2ff; border-left: 5px solid #5a67d8;  margin-bottom: 50px; display: inline-block;">
+                                    플랩과 함께하는 내일
+                                </div>
+                                <p style="font-size: 1.3rem;">
+                                    플랩은 365일 구장과 연결되어 있습니다.<br>
+
+                                    휴일에도 전담 운영팀이 구장주님과 소통합니다.<br>
+
+                                    구장의 든든한 지원군이자 파트너인 플랩풋볼과 함께 달라진 내일을 경험해 보세요😊
+                                </p>
+                                <p style="text-align: end;">[F&F풋볼 제휴 단계]</p>
+                                <img src="https://plabfootball.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F48562c09-89d8-4aec-a781-e0416c59abb4%2FUntitled.png?table=block&id=892e67d1-87a7-4914-ae23-d604e739d124&spaceId=e3cae29d-95d5-4502-84dc-2d62d30f1f81&width=1250&userId=&cache=v2"
+                                    style="width:90%;">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

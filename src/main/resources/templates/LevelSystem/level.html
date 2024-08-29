@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레벨 시스템</title>
+    <style>
+        .content_wrap{
+            margin: 0 auto;
+            background-color: #f2f5f7;
+        }
+        .content_body{
+            display: flex;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        .content-body_wrap{
+            background-color: white;
+
+        }
+        #magazineArticleApp .section-wide{
+            margin-bottom: 0;
+        }
+        .section-wide{
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        .magazine-article_cover{
+            margin-bottom: 40px;
+        }
+        #magazineArticleApp .img{
+            width:100%;
+            min-width: 80px;
+        }
+        .magazine-article_content img{
+            width: 400px;
+            display: block;
+            margin-top: 40px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .magazine-article_title{
+            margin: 0 40px 20px 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #282b33;
+        }
+        .magazine-article_title h1{
+            font-size: 40px;
+            font-weight: 700;
+            word-break: keep-all;
+        }
+        .section{
+            background-color: white;
+            padding:0px;
+        }
+        .section_body{
+            padding:0px 20px 24px 20px;
+        }
+        .magazine-article_content{
+            border-bottom: 1px solid #ddd;
+            padding: 40px;
+            vertical-align: baseline
+        }
+        .magazine-article_content h3{
+            font-size: 24px;
+            margin-bottom: 20px;
+            width: 60%;
+            font-weight: 500;
+            word-break: keep-all;
+        }
+        .magazine-article_content pre{
+            color:#595e68;
+            font-size: 18px;
+            line-height: 26px;
+            word-break: keep-all;
+            font-family: "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", "dotum", "gulim", sans-serif;
+            padding-left: 0;
+            margin-left: 0;
+            white-space: pre-wrap; /* 줄바꿈만 유지 */
+            text-align: left; /* 왼쪽 정렬 */
+        }
+        #magazineArticleApp .section {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="form-container">
+    <div id="magazineArticleApp" class="content">
+        <div class="content_wrap">
+            <div class="content_body">
+                <div class="content-body_wrap" style="background-color: transparent;">
+                    <section class="section-wide">
+                        <div class="magazine-article_cover">
+                            <img src="https://d31wz4d3hgve8q.cloudfront.net/media/plab-magazine/article/thumbnail/cover_level_for_user.jpg"
+                            style="width: 100%; min-width: 80px;">
+                        </div>
+                        <div class="magazine-article_title">
+                            <h1>나의 F&F 레벨은?</h1>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>레벨이 필요한 이유</h3>
+                                <pre>
+어렸을 때부터 우리는 라이벌 친구끼리 가위바위보로 한 명씩 뽑아서 팀을 만들었어요. 서로의
+실력을 알기 때문에 자연스럽게 두 팀의 실력이 비슷해지고 게임은 막상막하가 돼요
+
+하지만 소셜 매치에서는 서로의 실력을 알 수 없기 때문에 곧잘 실력의 균형이 깨져 버리기 쉽고
+그러면 재미가 떨어져요. 그래서 플래버들의 실력을 데이터로 남겨서 재밌게 팀을 짜기로 했어요.
+</pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>두 매치 참여하고 내 레벨을 확인해 보세요!</h3>
+                                <pre>
+두 매치만 참여하면 내 레벨을 확인할 수 있습니다. 두 매치 참여하고 내 레벨을 확인해보세요!
+                  <img src="https://d31wz4d3hgve8q.cloudfront.net/media/plab-magazine/article/6/images/img_level_for_user10.png">
+                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>5가지의 레벨이 생겨요</h3>
+                                <pre>
+스타터, 비기너, 아마추어, 세미프로, 프로 5가지 레벨이 생기고 각 레벨별 1~3단계로 세분화돼요. 숫자가
+높을수록 더 높은 레벨이예요. 이제 내 레벨이 오르내리는 걸 볼 수 있어요.
+                  <img src="https://d31wz4d3hgve8q.cloudfront.net/media/plab-magazine/article/None/images/img_level_for_user13.png">
+                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>레벨이 바뀌나요?</h3>
+                                <pre>
+모든 경기에서 레벨이 입력되지 않지만 2경기 중 1경기는 레벨이 입력되고 레벨이 달라져요. 나의 컨디션이나
+참가자들의 성향, 경기 중 발생하는 불규칙성 등에 따라 언제든 레벨이 달라질 수 있어요.
+
+하지만 F&F은 F&F 레벨 시스템을 통해 신뢰도를 높이고 있어요. 신뢰할 수 없는 레벨은 자동으로 탐지하고
+제거하며 정확한 레벨을 위해 여러 경기를 지켜보고 레벨을 부여해요. F&F에 자주 참여할수록 내 레벨은
+정확해질 거예요.
+                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>F&F이 인증하는 레벨</h3>
+                                <pre>
+신뢰할 수 있는 레벨 시스템은 10번 이상 레벨이 기록될 때 작동해요. 내 레벨에 인증 마크가 있다면 신뢰해도
+좋아요!
+                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>진짜 초급,중급 매치가 열려요</h3>
+                                <pre>
+초급 매치는 비기너3 이하, 아마추어2 이하로, 중급 매치는 아마추어2 이상, 세미프로1 이상 매치로 새롭게
+열려요.
+
+중급 매치는 내 레벨에 따라 참가 제한이 생기고 초급 매치는 설정된 레벨에 맞게 참여할 수 있도록 권장하고
+있어요.
+                                    <img src="https://d31wz4d3hgve8q.cloudfront.net/media/plab-magazine/article/9/images/magazine_level_15.png">
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="section">
+                        <div class="section_body">
+                            <div class="magazine-article_content">
+                                <h3>두둥! 매치 시작 30분 전 공개되는 오피셜 매치 레벨</h3>
+                                <pre>
+매치 시작 30분 전 매치에 참가하는 플래버들의
+오피셜 레벨이 공개돼요. 오늘 참가하는 유저들의 레벨
+분포를 확인해보고 나의 플레이를 미리 그려보세요.
+                                    <img src="https://d31wz4d3hgve8q.cloudfront.net/media/plab-magazine/article/51/images/magazine_level_for_user_7.png">
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

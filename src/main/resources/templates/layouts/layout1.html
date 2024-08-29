@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link th:href="@{/css/layout1.css}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Jua&display=swap" rel="stylesheet">
+
+    <!-- JS, Popper.js and Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="css"></th:block>
+</head>
+<style>
+    /* 스크롤 애니메이션 클래스 */
+      .scroll-to-top {
+       position: fixed;
+       bottom: 50%;
+       right: 20px;
+       display: none;
+       cursor: pointer;
+       background-color: gray;
+       color: #fff;
+       padding: 10px;
+       border-radius: 5px;
+       font-weight: bold;
+        }
+        .scroll-to-top:hover {
+            background-color: gray;
+            color:black;
+       }
+        .content{
+           margin-top:150px;
+           margin:auto;
+        }
+        /* 검색바 스타일 */
+        .search-bar {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .search-bar input {
+           border: 2px solid #ccc;
+           border-radius: 20px;
+           padding: 5px 20px;
+           width: 100%;
+           height:50px;
+           margin:30px;
+       }
+
+        .search-bar img {
+            position: absolute;
+            left: 40px;
+            width: 20px;
+            height: 20px;
+            margin-top: 45px;
+        }
+        .navbar {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+            background-color:white;
+        }
+
+        .navbar-brand {
+            color: #000000;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .navbar-nav .nav-link {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        .icon-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-section img {
+            margin-left: 15px;
+        }
+
+        .badge {
+            background-color: red;
+            color: white;
+            font-size: 1rem;
+            top: -5px;
+            right: -10px;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            margin-left: auto; /* 링크들을 오른쪽으로 정렬 */
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #ff6600;
+            font-weight: bold;
+            font-size: 1.3rem; /* 폰트 크기 조정 */
+            margin-left: 10px; /* 좌측 여백 */
+            margin-right: 10px; /* 우측 여백 */
+        }
+    .content-body_wrap a{
+        color:black;
+        text-decoration: auto
+    }
+</style>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+
+<div layout:fragment="content" class="content">
+
+</div>
+
+<div th:replace="~{fragments/footer::footer}"></div>
+<div class="scroll-to-top" id="scrollToTop">TOP</div>
+
+<script>
+    // "scrollToTop" ID를 가진 요소에 클릭 이벤트 리스너 추가
+    document.getElementById("scrollToTop").addEventListener("click", function() {
+        // 부드럽게 스크롤 애니메이션
+        window.scroll({
+            top: 0,      // 최상단으로 스크롤
+            left: 0,     // 가로 스크롤 위치 (여기서는 0으로 설정)
+            behavior: "smooth"  // 스크롤 애니메이션을 부드럽게 설정
+        });
+    });
+
+
+    // 사용자가 스크롤할 때마다 실행되는 함수
+    window.onscroll = function() {
+        // "scrollToTop" ID를 가진 요소를 가져옴
+        var scrollButton = document.getElementById("scrollToTop");
+
+        // 문서의 수직 스크롤 위치가 20픽셀 이상인 경우 버튼을 표시하고, 그렇지 않으면 숨김
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollButton.style.display = "block";  // 버튼을 표시
+        } else {
+            scrollButton.style.display = "none";   // 버튼을 숨김
+        }
+    };
+
+</script>
+</body>
+</html>

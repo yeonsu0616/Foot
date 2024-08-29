@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 페이지</title>
+</head>
+<th:block layout:fragment="css">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: flex-start;
+
+}
+
+.form-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 500px;
+}
+
+.sidebar {
+    width: 30%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-right: 20px;
+    border-radius: 10px;
+    min-width: 400px;
+}
+
+.profile-info h2 {
+    margin-top: 0;
+}
+
+.status {
+    margin-top: 20px;
+}
+
+.status-icon {
+    font-size: 1.2em;
+    margin-left: 10px;
+    color: green;
+}
+.guide {
+    background-color: #e9f6ff;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 30px;
+    padding: 30px;
+    margin-bottom: 20px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.banner-magazine_title{
+    width:80%;
+    color:#2d4f83;
+    text-decoration: auto
+}
+.banner-magazine_title p{
+    font-size:14px;
+    line-height:22px;
+}
+.banner-magazine_title h3{
+    font-size:18px;
+    line-height:32px;
+}
+.banner-magazine_thumb{
+    width:50px;
+    height:50px;
+}
+.banner-magazine_thumb img{
+    height:100%;
+    width:100%;
+    object-fit:cover;
+    border-radius:100px;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+.main-content {
+    width: 60%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+.section_title {
+    padding-bottom: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+}
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    display:flex;
+}
+.my-menu-list_label{
+    display: flex;
+    align-items: center;
+}
+.my-menu-list_label span{
+    padding:5px;
+}
+.my-menu-list_label img{
+   width:24px;
+}
+.customer-service {
+    width: 60%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.customer-service ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.customer-service li {
+    padding: 10px 0;
+}
+.content-body_wrap{
+   width:100%;
+   min-width: 900px;
+}
+.third-service{
+    width: 60%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    border-radius: 10px;
+}
+.third-service ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.third-service li {
+    padding: 10px 0;
+}
+</style>
+</th:block>
+<body>
+<div layout:fragment="content" class="form-container" style="display:flex;">
+    <div class="sidebar">
+        <div class="profile-info">
+            <h2>김연수</h2>
+            <p>2182057877</p>
+        </div>
+        <div class="status">
+            <p>매너</p>
+            <span class="status-icon">😊 좋아요</span>
+        </div>
+        <div class="guide">
+            <a class="banner-magazine_title" href="/members/level">
+                <p>F&F 가이드</p>
+                <h3>레벨 시스템을 소개합니다</h3>
+            </a>
+            <div class="banner-magazine_thumb">
+                <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_level_2.svg">
+            </div>
+        </div>
+    </div>
+    <div class="content-body_wrap">
+        <div class="main-content">
+            <div class="section_title">나의 F&F</div>
+            <ul class="menu">
+                <li>
+                    <div class="my-menu-list_label">
+                        <a href="/cart">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_myplab_color.svg"
+                             alt="신청 내역">
+                        신청 내역
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="my-menu-list_label">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_coupon_color.svg"
+                             alt="쿠폰">
+                        <span>쿠폰</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="my-menu-list_label">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_fire.svg"
+                             alt="챌린지">
+                        <span>챌린지</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="my-menu-list_label">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_email.svg"
+                             alt="챌린지">
+                    </div>
+                    <span>친구 초대</span>
+                </li>
+                <li>
+                    <div class="my-menu-list_label">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_profile.svg"
+                             alt="프로필 수정">
+                        <span>프로필 수정</span>
+                    </div>
+
+                </li>
+                <li>
+                    <div class="my-menu-list_label">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_setting_color.svg"
+                             alt="설정">
+                        <span>설정</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="my-menu-list_label">
+                        <a href="/members/logout">
+                        <img src="/img/logout.png" alt="로그아웃">
+                            로그아웃
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="customer-service">
+            <div class="section_title">고객센터</div>
+            <ul>
+                <li>자주 묻는 질문</li>
+                <li>공지사항</li>
+            </ul>
+        </div>
+        <div class="third-service">
+            <div class="section_title">더보기</div>
+            <ul>
+                <a href="/members/intro">
+                    F&F 소개
+                </a>
+                <li>매거진</li>
+                <li>매니저 지원</li>
+                <a href="/members/intro4">
+                    구장 제휴
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

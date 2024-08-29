@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml" layout:decorate="~{layouts/layout1}">
+
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+</head>
+
+<th:block layout:fragment="script">
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            calculateTotalPrice();
+
+            $("#count").change(function () {
+                calculateTotalPrice();
+            });
+        });
+
+        function calculateTotalPrice() {
+            var count = $("#count").val();
+            var price = $("#price").val();
+            var totalPrice = price * count;
+            $("#totalPrice").html(totalPrice + '원');
+        }
+
+        function order() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var url = "/order";
+            var paramData = {
+                itemId: $("#itemId").val(),
+                count: $("#count").val()
+            }
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: param,
+                contentType: "application/json",
+                beforeSend: function (xhr) {
+                    /*데이터 전송하기 전에 헤더이 csrf 값을 설정*/
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType: "json",
+                cache: false,
+                success: function (result, status) {
+                    console.log(result)
+                    alert("결제를 진행.");
+                    location.href = '/payment/' + result;
+
+                },
+                error: function (jqXHR, status, error) {
+                    if (jqXHR.status == '401') {
+                        alert('로그인 후 이용해주세요.');
+                        location.href = '/members/login';
+                    } else {
+                        alert(jqXHR.responseText);
+                    }
+                }
+            });
+        }
+
+        function addCart() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var url = "/cart";
+
+            var paramData = {
+                itemId: $("#itemId").val(),
+                count: $("#count").val()
+            };
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: param,
+                beforeSend: function (xhr) {
+                    /*데이터 전송하기 전에 헤더이 csrf 값을 설정*/
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType: "json",
+                cache: false,
+                success: function (result, status) {
+                    alert("매치를 찜 목록에 담았습니다.");
+                    location.href = '/';
+                },
+                error: function (jqXHR, status, error) {
+                    if (jqXHR.status == '401') {
+                        alert('로그인 후 이용해주세요.');
+                        location.href = '/members/login';
+                    } else {
+                        alert(jqXHR.responseText);
+                    }
+                }
+            });
+        }
+    </script>
+</th:block>
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f8fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            justify-content: center;
+            padding: 20px;
+            max-width: 1024px;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .image-container img {
+             width: 100%;
+    height: 100%;
+    object-fit: cover;
+        }
+
+        .left-container {
+            width: 160px;
+        }
+
+        span {
+            margin-bottom: 10px;
+        }
+
+        .custom-btn {
+            width: 70px;
+            /* 버튼의 너비 */
+            height: 50px;
+            /* 버튼의 높이 */
+            padding: 5px;
+            /* 버튼 안의 여백 */
+        }
+
+        .custom-btn img {
+            max-width: 100%;
+            /* 이미지의 최대 너비를 버튼에 맞춤 */
+            max-height: 100%;
+            /* 이미지의 최대 높이를 버튼에 맞춤 */
+        }
+
+        .match-info,
+        .match-details {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            min-width: 480px;
+        }
+
+        .match-point {
+            flex: 2;
+        }
+
+        .match-details {
+            flex: 1;
+            max-width: 300px;
+            height: fit-content;
+            position: sticky;
+            top: 3px;
+            right: 0;
+            background-color: white;
+            z-index: 1000;
+            padding: 15px;
+            overflow: auto;
+        }
+
+
+        .match-info h3,
+        .match-details h4 {
+            font-size: 23px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .match-details h3 {
+            margin-top: 0;
+        }
+
+        .match-details p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .match-details .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .match-details .btn {
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .match-details .note {
+            color: #888;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .match-details a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .match-details a:hover {
+            text-decoration: underline;
+        }
+
+        .level,
+        .gender,
+        .format,
+        .participants,
+        .extra-info {
+            margin-bottom: 20px;
+        }
+
+        .text-left {
+            font-size: 26px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .match-details h3 {
+            margin-top: 0;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .stadium-container {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            min-width: 480px;
+        }
+
+        .stadium-container h4 {
+            font-size: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /*댓글 css*/
+
+        .last {
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+
+        /* 제목 스타일 */
+        .last h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        /* 댓글 작성 섹션 */
+        .last .comment-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .comment-write {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .comment-write p {
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .comment-write textarea {
+            flex-grow: 1;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            resize: vertical;
+            margin-right: 10px;
+        }
+
+        #comment-write-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #comment-write-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* 댓글 리스트 섹션 */
+        #comment-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #comment-list th,
+        #comment-list td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #comment-list th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .fixed-writer,
+        .fixed-contents,
+        .fixed-dateWidth {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .comment-delete {
+            text-align: right;
+        }
+
+        .btn-comment-delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-comment-delete:hover {
+            background-color: #c82333;
+        }
+
+        .arrow-container {
+            max-width: 480px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-left: 10px;
+            margin-bottom: 20px;
+        }
+
+        .arrow-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .arrow-title h2 {
+            margin: 0;
+        }
+
+        .arrow {
+            font-size: 24px;
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .arrow1.rotate {
+            transform: rotate(90deg);
+        }
+
+        .arrow2.rotate {
+            transform: rotate(90deg);
+        }
+
+        .arrow-content {
+            overflow: hidden;
+            height: 0;
+            transition: height 0.3s ease;
+            padding-top: 5px;
+        }
+
+        .arrow-content h3 {
+            font-weight: 600;
+        }
+    </style>
+</th:block>
+<div layout:fragment="content" class="container">
+    <input type="hidden" id="itemId" th:value="${item.id}">
+    <!--슬라이드---->
+    <div class="image-container">
+        <img th:src="${item.itemImgDtoList[0].imgUrl}" class="rounded repImg" th:alt="${item.itemNm}">
+    </div>
+    <div class="Big-container">
+        <div class="main-container" style="display:flex;">
+            <div class="MatchPoint">
+                <div class="match-info">
+                    <h3>매치 포인트</h3>
+                    <div class="center-container" style="display:flex;">
+                        <div class="left-container" style="margin-right: 90px;">
+                            <div class="a" style="display:flex;">
+                                <span>🔹</span>
+                                <div class="level" th:text="${item.level}"></div>
+                            </div>
+                            <div class="b" style="display:flex;">
+                                <span>👫</span>
+                                <div class="gender" th:text="${item.gender}"></div>
+                            </div>
+                            <div class="c" style="display:flex;">
+                                <span>📅</span>
+                                <div class="format" th:text="${item.matchInfo}"></div>
+                            </div>
+                        </div>
+                        <div class="right-container">
+                            <div class="d" style="display:flex;">
+                                <span>👥</span>
+                                <div class="participants" th:text="${item.memberNumber}"></div>
+                            </div>
+                            <div class="e" style="display:flex;">
+                                <span>⚽</span>
+                                <div class="extra-info" th:text="${item.shoes}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--구장 정보-->
+                <div class="mgt-30" style="max-width: 480px;">
+                    <div class="stadium-container">
+                        <h4 class=" border-success-subtle rounded-pill display-5" style="margin-top: 17px; margin-left: 10px;">
+                            구장 정보
+                        </h4>
+                        <hr class="my-4" style="margin-top: 0.2rem !important">
+                        <p class="lead" th:text="${item.itemDetail}" style="white-space:pre-line; font-size:1rem;"></p>
+                    </div>
+                </div>
+                <!--추가 사진-->
+                <div th:each="itemImg, iterStat : ${item.itemImgDtoList}" class="text-center">
+                    <img th:if="${not #strings.isEmpty(itemImg.imgUrl)} and ${iterStat.index != 0}"
+                         th:src="${itemImg.imgUrl}" class="rounded mgb-15" width="800">
+                </div>
+                <!--클릭이벤트-->
+                <div class="arrow-container">
+                    <div class="arrow-title">
+                        <h2>매치 진행 방식</h2>
+                        <div class="arrow1" onclick="toggleContent1()">&#9002;</div>
+                    </div>
+                    <div class="arrow-content" id="arrow-content1">
+                        <h3>매치 규칙</h3>
+                        <ul>
+                            <li>모든 파울은 사이드라인에서 킥인</li>
+                            <li>골키퍼에게 백패스 가능한 손으로 잡으면 안 돼요</li>
+                            <li>사람을 향한 태클 금지</li>
+                        </ul>
+                        <h3>진행 방식</h3>
+                        <ul>
+                            <li>풋살화와 개인 음료만 준비하세요</li>
+                            <li>매니저가 경기 진행을 도와드려요</li>
+                            <li>골키퍼와 휴식을 공평하게 돌아가면서 해요</li>
+                            <li>레벨 데이터를 기준으로 팀을 나눠요</li>
+                            <li>친구끼리 와도 팀 실력이 맞지 않으면 다른 팀이 될 수 있어요</li>
+                        </ul>
+                        <h3>알아두면 좋아요</h3>
+                        <ul>
+                            <li>서로 존중하고 격려하며 함께 즐겨요</li>
+                            <li>플랩 평균 레벨은 아마추어2에요</li>
+                            <li>플랩에서는 하루 평균 250매치가 진행되고 있어요</li>
+                            <li>매일 4,500여 명이 팀 없이도 풋살을 즐기고 있어요</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="arrow-container">
+                    <div class="arrow-title">
+                        <h2>환불 정책</h2>
+                        <div class="arrow2" onclick="toggleContent2()">&#9002;</div>
+                    </div>
+                    <div class="arrow-content" id="arrow-content2">
+                        <h3>그 외 취소 기준</h3>
+                        <ul>
+                            <li>결제 후 30분 이내에는 하루 1회에 한해 무료 취소가 가능합니다. (단, 매치 시작 90분 이내일 경우 불가)</li>
+                            <li>쿠폰 신청자는 매치 시작 90분 전까지 취소 시 쿠폰이 반환됩니다.</li>
+                            <li>결제 시 실 결제금액(쿠폰 제외)을 기준으로 위 규정에 따라 환급됩니다.</li>
+                            <li>현장에서 매치가 취소되는 경우 참가비는 진행되지 않은 시간만큼 다음날 오전 환급됩니다.</li>
+                            <li>매치 시작 90분 전까지 최소 인원이 모이지 않을 시 카카오톡 혹은 LMS으로 안내되며, 자동 전액 환불됩니다. (단, 공지 전 직접 취소하시는 경우 상단
+                                일반 환불 규정대로 처리되니 유의하시길 바랍니다)</li>
+                        </ul>
+                        <h3>다음의 경우는 환불이 불가합니다.</h3>
+                        <ul>
+                            <li>구장, 날짜, 시간 등을 실수로 잘못 선택한 경우</li>
+                            <li>부상, 취업 등 개인 사정으로 신청된 매치에 참여하지 못하는 경우</li>
+                            <li>단체 혹은 지인과의 참가로 매치 취소 혹은 변경을 원하는 경우</li>
+                            <li>황사/미세먼지로 인해 취소 혹은 변경을 요청하는 경우</li>
+                            <li>단순 변심으로 취소 혹은 변경을 요청하는 경우</li>
+                        </ul>
+                        <h3>유의사항</h3>
+                        <ul>
+                            <li>무단 불참하거나 매치 시작 90분 이내에 취소하면 패널티를 받을 수 있습니다.
+                                (참여가 어려울 경우, 환불이 불가능하더라도 원활한 매치 진행을 위해 나의 플랩에서 미리 취소해 주세요.)</li>
+                        </ul>
+                        <h3>우천 및 폭설 정책</h3>
+                        <ul>
+                            <li>기상청 날씨누리 예보에 따라 진행 여부 및 환불 가능 여부를 공지해드립니다.
+                                <ul>
+                                    <li>오전(12시 이전) 매치 : 하루 전 22시 기준, 매치 진행 시간의 강수량 예보가 1mm 이상 시</li>
+                                    <li>오후(12시 이후) 매치 : 매치 시작 4시간 전 기준, 매치 진행 시간의 강수량 예보가 1mm 이상 시</li>
+                                </ul>
+                            </li>
+                            <li>‘강수 안내 알림톡’을 받고, 매치 시작 90분 전까지 취소하면 전액 환불됩니다.</li>
+                            <li>갑작스러운 기상 악화로 1mm 이상 강수 예보가 발생하였으나 매치 3시간 전까지 알림톡이 발송되지 못한 경우, 아래와 같이 처리됩니다.
+                                <ul>
+                                    <li>매치 시작 1시간 30분 ~ 3시간 전까지 홈페이지 우측 하단 채널톡으로 문의 시 확인 후 강수 안내 알림톡 발송 또는 전액 환불 처리</li>
+                                    <li>매치 시작까지 1시간 30분 미만 남은 경우 매치 확정 후 현장으로 출발한 참가자가 있을 수 있어 현장 방문 후 매니저에게 취소 의사 전달 시
+                                        전액 환불 처리 가능(익일 오전 일괄 환급)</li>
+                                </ul>
+                            </li>
+                            <li>알림톡 발송 없이 직접 취소하시는 경우 상단의 일반 환불 규정대로 처리되니 유의하시길 바랍니다.</li>
+                            <li>별도 공지가 없을 시 매치는 정상 진행됩니다.</li>
+                            <li>다수의 인원이 취소하거나, 구장 상태가 좋지 않아 진행이 어렵다면 매치 시작 90분 이내라도 매치를 취소합니다.</li>
+                            <li>현장에서 매치가 취소되거나 중단되면 진행하지 못한 시간만큼 캐시로 환불됩니다.</li>
+                        </ul>
+                        <h3>소셜매치 취소 방법</h3>
+                        <ul>
+                            <li>마이페이지 → 신청 내역 → 소셜 매치 탭 클릭 → 취소를 원하는 매치의 신청내역 클릭 후 취소</li>
+                            <a href="/cart" style="color: black;">신청 내역 바로 가기</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="match-details">
+                <span th:if="${item.itemSellStatus == T(com.example.foot.constant.ItemSellStatus).SELL}"
+                      class="badge bg-primary mgb-15 " style="background-color:#0054FF !important;">신청가능</span>
+                <span th:unless="${item.itemSellStatus == T(com.example.foot.constant.ItemSellStatus).SELL}"
+                      class="badge bg-primary mgb-15" style="background-color:#FF0000 !important;">신청마감</span>
+                <div class="DateInfo" style="display:flex;">
+                    <div class="h3" th:text="${item.formattedPlayDateWithDayOfWeek}"></div>
+                    <div class="h3" th:text="${item.playTime}"></div>
+                </div>
+                <div class="h4" th:text="${item.itemNm}"></div>
+                <div class="ad" style="display:flex;">
+                    <div class="h7" th:text="${item.playAddress}" style="margin-right:10px;"></div>
+                    <div class="map">
+                        <!-- 주소 복사 버튼 -->
+                        <a href="#" id="copyAddress" onclick="copyAddressFunction()">주소 복사</a>
+                        <!-- 지도 보기 버튼 -->
+                        <a href="#" id="showMap" onclick="showMapFunction()">지도 보기</a>
+                        <script>
+                            // 주소 복사 기능
+                            function copyAddressFunction() {
+                                // 예시 주소
+                                var address = '[[${item.playAddress}]]';
+
+                                // 클립보드에 주소 복사
+                                navigator.clipboard.writeText(address).then(function () {
+                                    alert("주소가 복사되었습니다: " + address);
+                                }, function (err) {
+                                    alert("복사에 실패했습니다. " + err);
+                                });
+                            }
+
+                            // 지도 보기 기능
+                            function showMapFunction() {
+                                const mapDiv = document.getElementById("map");
+
+                                if (mapDiv.style.display === "none") {
+                                    mapDiv.style.display = "block";
+                                    initMap();  // 지도를 초기화하는 함수 호출
+                                } else {
+                                    mapDiv.style.display = "none";
+                                }
+                            }
+
+                            function initMap() {
+                                const mapContainer = document.getElementById('map');
+                                const geocoder = new kakao.maps.services.Geocoder();
+
+                                // 사용자로부터 입력받은 주소를 사용
+                                const address = '[[${item.playAddress}]]';  // 여기에 사용자가 입력한 주소를 넣으면 됩니다.
+
+                                geocoder.addressSearch(address, function (result, status) {
+                                    if (status === kakao.maps.services.Status.OK) {
+                                        const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                                        // 지도를 입력된 주소로 초기화
+                                        const mapOption = {
+                                            center: coords,  // 검색된 좌표를 지도의 중심으로 설정
+                                            level: 3  // 지도의 확대 레벨
+                                        };
+
+                                        const map = new kakao.maps.Map(mapContainer, mapOption);
+
+                                        // 마커를 생성하고 지도에 표시
+                                        const marker = new kakao.maps.Marker({
+                                            map: map,
+                                            position: coords
+                                        });
+                                    } else {
+                                        alert('주소 검색에 실패했습니다.');
+                                    }
+                                });
+                            }
+                        </script>
+                        <script type="text/javascript"
+                                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=07b9ad12a78d58166bb7390410fdfacc&libraries=services">
+                        </script>
+                    </div>
+                </div>
+                <div id="map" style="width:100%;height:350px;display:none;"></div>
+                <hr class="my-4">
+                <div class="text-right">
+                    <div class="h4 text-danger text-left" style="color:black !important;">
+                        <input type="hidden" th:value="${item.price}" id="price" name="price">
+                        <span th:text="${item.price}"></span>원/2시간
+                    </div>
+                    <div class="input-group w-50">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">수량</span>
+                        </div>
+                        <input type="number" name="count" id="count" class="form-control" value="1" max="1" min="0">
+                    </div>
+                    <hr class="my-4">
+                    <div th:if="${item.itemSellStatus == T(com.example.foot.constant.ItemSellStatus).SELL}"
+                         class="text-right">
+                        <button type="button" class="btn btn-light border custom-btn" onclick="addCart()">
+                            <img src="/img/soccer (2).png" alt="찜,장바구니">
+                        </button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="order()">신청하기</button>
+                    </div>
+                    <div th:unless="${item.itemSellStatus == T(com.example.foot.constant.ItemSellStatus).SELL}"
+                         class="text-right">
+                        <button type="button" class="btn btn-danger btn-lg">품절</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 댓글 작성 부분 -->
+        <div class="last">
+            <h1>매치 후기</h1>
+            <div sec:authorize="isAuthenticated()" id="comment-write" class="comment-section">
+                <div class="comment-write">
+                    <p id="commentWriter" th:text="${email}">example@example.com</p>
+                    <textarea id="commentContents" placeholder="내용"></textarea>
+                    <button id="comment-write-btn" onclick="commentWrite()">작성</button>
+                </div>
+            </div>
+            <!-- 댓글 출력 부분 -->
+            <div id="comment-list" class="comment-section">
+                <table>
+                    <tr>
+                        <th style="width:100px">작성자</th>
+                        <th style="width:730px">내용</th>
+                        <th style="width:150px">작성시간</th>
+                    </tr>
+                    <tr th:each="comment: ${commentList}">
+                        <td class="fixed-writer">
+                            <span id="commentsWriter" th:text="${comment.commentWriter}">작성자명</span>
+                        </td>
+                        <td class="fixed-contents">
+                            <span id="commentContents-${comment.id}" th:text="${comment.commentContents}">댓글 내용</span>
+                        </td>
+                        <td class="fixed-dateWidth">
+                            <span
+                                    th:text="${#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd HH:mm:ss')}">2024-08-22
+                                16:00:00
+                            </span>
+                        </td>
+                        <td class="comment-delete">
+                            <button sec:authorize="isAuthenticated()" class="btn-comment-delete"
+                                    th:data-comment-id="${comment.id}" th:data-comment-writer="${comment.commentWriter}">삭제
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+
+<script>
+    const commentWrite = () => {
+        const writer = document.getElementById("commentWriter").innerText; // 작성자 이름을 가져옴
+        const contents = document.getElementById("commentContents").value;
+
+        // 내용이 없을 때 경고 메시지 표시
+        if (!contents) {
+            alert("내용을 입력해주세요.");
+            return; // 내용이 없으면 함수 종료
+        }
+
+        if (contents.length > 255) {
+            alert("내용은 255자까지 가능합니다");
+            return;
+        }
+
+        console.log("작성자 : ", writer);
+        console.log("내용 : ", contents);
+
+        const id = document.getElementById("itemId").value; // 게시글 번호
+        console.log("게시글 번호 : ", id);
+
+        // CSRF 토큰과 헤더 가져오기
+        const token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        $.ajax({
+            type: "POST",
+            url: "/comment/save",
+            data: {
+                "commentWriter": writer,
+                "commentContents": contents,
+                "itemId": id
+            },
+            beforeSend: function (xhr) {
+                // 데이터 전송하기 전에 헤더에 CSRF 토큰 설정
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (res) {
+                console.log("요청 성공", res);
+                let output = "<table>";
+                output += "<tr>";
+                output += "<th>작성자</th>";
+                output += "<th>내용</th>";
+                output += "<th>작성시간</th>"
+                for (let i in res) {
+                    // 날짜 형식 변환
+                    let date = new Date(res[i].commentCreatedTime);
+                    let formattedDate = date.getFullYear() + '-' +
+                        ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + date.getDate()).slice(-2) + ' ' +
+                        ('0' + date.getHours()).slice(-2) + ':' +
+                        ('0' + date.getMinutes()).slice(-2) + ':' +
+                        ('0' + date.getSeconds()).slice(-2);
+
+                    output += "<tr>";
+                    output += "<td class='fixed-writer'>" + res[i].commentWriter + "</td>";
+                    output += "<td class='fixed-contents'>" + res[i].commentContents + "</td>";
+                    output += "<td class='fixed-dateWidth'>" + formattedDate + "</td>"; // 변환된 날짜 사용
+                    output += "<td class='comment-delete'><button sec:authorize='isAuthenticated()' class='btn-comment-delete' data-comment-id='" + res[i].id + "' data-comment-writer='" + res[i].commentWriter + "'>삭제</button></td>";
+                    output += "</tr>";
+                }
+                output += "</table>";
+                document.getElementById('comment-list').innerHTML = output;
+                document.getElementById('commentWriter').value = '';
+                document.getElementById('commentContents').value = '';
+
+                // 새로 추가된 삭제 버튼에 이벤트 리스너 추가
+                addDeleteButtonEventListeners();
+            },
+            error: function (err) {
+                console.log("요청 실패", err);
+            }
+        });
+    };
+
+    const addDeleteButtonEventListeners = () => {
+        var commentDeleteButtons = document.querySelectorAll(".btn-comment-delete");
+        const writer = document.getElementById("commentWriter").innerText;
+
+        commentDeleteButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                var commentId = button.getAttribute("data-comment-id");
+                var commentWriter = button.getAttribute("data-comment-writer");
+                console.log(writer);
+                console.log(commentWriter);
+
+                if (confirm("댓글을 삭제하시겠습니까?")) {
+                    // CSRF 토큰 가져오기
+                    var csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+                    var csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+
+                    if (writer != commentWriter) {
+                        alert("권한이 없습니다.")
+                        return;
+                    }
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/comment/delete/" + commentId,
+                        beforeSend: function (xhr) {
+                            // CSRF 토큰과 헤더 설정
+                            xhr.setRequestHeader(csrfHeader, csrfToken);
+                        },
+                        success: function () {
+                            alert("삭제했습니다!!");
+                            window.location.href = "/item/" + document.getElementById("itemId").value;
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('댓글 삭제 실패: ' + error);
+                            alert('댓글 삭제에 실패했습니다.');
+                        }
+                    });
+                }
+            });
+        });
+    };
+    // 페이지 로드 시 삭제 버튼 이벤트 리스너 추가
+    document.addEventListener("DOMContentLoaded", addDeleteButtonEventListeners);
+</script>
+<script>
+    function toggleContent1() {
+        var content = document.getElementById('arrow-content1');
+        var arrow = document.querySelector('.arrow1');
+
+        if (content.style.height === '0px' || content.style.height === '') {
+            content.style.height = content.scrollHeight + 'px';
+            arrow.classList.add('rotate');
+        } else {
+            content.style.height = '0px';
+            arrow.classList.remove('rotate');
+        }
+    }
+    function toggleContent2() {
+        var content = document.getElementById('arrow-content2');
+        var arrow = document.querySelector('.arrow2');
+
+        if (content.style.height === '0px' || content.style.height === '') {
+            content.style.height = content.scrollHeight + 'px';
+            arrow.classList.add('rotate');
+        } else {
+            content.style.height = '0px';
+            arrow.classList.remove('rotate');
+        }
+    }
+</script>

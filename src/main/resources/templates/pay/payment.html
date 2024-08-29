@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <title>결제 페이지</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <style>
+        body {
+<!--             font-family: 'Roboto', sans-serif;-->
+<!--             background-color: #f5f5f5;-->
+<!--             margin: 0;-->
+<!--             padding: 0;-->
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+         }
+
+         .content-container {
+<!--             max-width: 90%;-->
+<!--             background-color: #fff;-->
+<!--             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--             padding: 20px;-->
+<!--             border-radius: 10px;-->
+<!--             margin-top: 20px;-->
+             max-width: 400px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+             width: 43%;
+             font-size: 1.1em;
+             line-height: 1.6;
+
+         }
+         .btn{
+            color: white;
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 8px 16px;
+    margin: 0 10px;
+    text-decoration: none;
+    border-radius: 20px;
+         }
+         <!---->
+            .confirmation {
+    text-align: center;
+    padding: 20px;
+    background-color: #FF6F61;
+    color: white;
+}
+
+.confirmation h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.confirmation h2 {
+    margin: 15px 0 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.event-details {
+    padding: 20px;
+}
+
+.detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.detail strong {
+    color: #333;
+}
+
+         button {
+             padding: 12px 24px;
+             font-size: 1.1em;
+             background-color: #4CAF50;
+             color: white;
+             border: none;
+             border-radius: 5px;
+             cursor: pointer;
+             transition: background-color 0.3s ease;
+         }
+
+         button:hover {
+             background-color: #45a049;
+         }
+
+         .button-container {
+             text-align: center;
+             margin-top: 20px;
+         }
+
+         .center-content {
+             display: flex;
+             justify-content: center;
+         }
+
+        .guide {
+    background-color: #e9f6ff;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 30px;
+    padding: 30px;
+    margin-bottom: 20px;
+    align-items: center;
+    cursor: pointer;
+    max-width: 100%;
+    margin: 10px;
+}
+        .banner-magazine_title h3{
+    font-size:18px;
+    line-height:32px;
+}
+        .banner-magazine_title{
+    width:80%;
+    color:#2d4f83;
+    text-decoration: auto
+}
+        .second{
+            margin-top:40px;
+        }
+
+        .details p{
+         padding: 0 5px;
+        }
+        .second-container{
+            background-color:white;
+            margin-top:50px;
+            border-radius:10px;
+        }
+        .culture-container{
+            margin-top: 40px;
+            background-color: whitesmoke;
+            border-radius: 10px;
+            margin: 40px 10px 0 10px;
+        }
+        .culture-container h5{
+          padding: 20px 0 0 20px;
+        }
+        .culture-container li{
+            padding-bottom: 5px;
+        }
+    </style>
+    <script>
+        var IMP = window.IMP;
+        IMP.init("imp00355578");
+
+        function requestPay() {
+            var orderUid = '[[${requestDto.orderUid}]]';
+            var itemNm = '[[${requestDto.itemNm}]]';
+            var paymentPrice = [[${requestDto.orderPrice}]];
+            var buyerName = '[[${requestDto.buyerName}]]';
+            var buyerEmail = '[[${requestDto.buyerEmail}]]';
+            var buyerAddress = '[[${requestDto.buyerAddress}]]';
+            var buyerTel = '[[${requestDto.buyerTel}]]';
+            var playDate = '[[${requestDto.playDate}]]';
+            var playTime = '[[${requestDto.playTime}]]';
+
+            IMP.request_pay({
+                    pg: 'html5_inicis.INIpayTest',
+                    pay_method: 'card',
+                    merchant_id: orderUid, // 주문 번호
+                    name: itemNm, // 상품 이름
+                    amount: paymentPrice, // 상품 가격
+                    buyer_email: buyerEmail, // 구매자 이메일
+                    buyer_name: buyerName, // 구매자 이름
+                    buyer_tel: buyerTel, // 임의의 값
+                    buyer_addr: buyerAddress, // 구매자 주소
+                    buyer_postcode: '123-456', // 임의의 값
+                    PlayDate : playDate, //날짜
+                    PlayTime : playTime, //시간
+
+                },
+                function (rsp) {
+                    if (rsp.success) {
+                        alert('결제가 완료되었습니다.')
+                        jQuery.ajax({
+                            url: "/payment",
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            data: JSON.stringify({
+                                "payment_uid": rsp.imp_uid, // 결제 고유번호
+                                "order_id": rsp.merchant_id // 주문번호
+                            })
+                        }).done(function (response) {
+                            console.log(response);
+                            alert('결제가 완료되었습니다.')
+                            window.location.href = "/main";
+                        })
+                    } else {
+                        alert('결제 실패!' + rsp);
+                        window.location.href = "redirect:/";
+                    }
+                });
+        }
+    </script>
+</head>
+<body>
+<div layout:fragment="content"
+            style="background-image: url(https://search.pstatic.net/sunny/?src=https%3A%2F%2Fpng.pngtree.com%2Fthumb_back%2Ffw800%2Fbackground%2F20231127%2Fpngtree-green-football-field-image_15494518.jpg&type=sc960_832); /* 배경 이미지 경로 */
+                    background-size: cover; /* 이미지가 화면을 덮도록 설정 */
+                    background-position: center; /* 이미지의 위치를 가운데로 설정 */
+                    background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+                    background-color: #f9f9f9; /* 배경색은 이미지가 로드되지 않을 때를 대비한 것 */">
+    <div class="center-content">
+        <div class="content-container" style="max-width:600px; margin-top:50px;">
+            <section class="confirmation">
+                <h2>F&F social futsal</h2>
+                <div class="buttons">
+                    <a href="/" class="btn">홈으로 가기</a>
+                    <a href="/cart" class="btn">신청 내역 보기</a>
+                </div>
+            </section>
+
+            <section class="event-details">
+                <div class="detail">
+                    <strong>Name</strong>
+                    <p  th:text="${requestDto.buyerName}"></p>
+                </div>
+                <div class="detail">
+                    <strong>Date</strong>
+                    <p th:text="${requestDto.playDate}"></p>
+                </div>
+                <div class="detail">
+                    <strong>Time</strong>
+                    <p id="timeDisplay" th:text="${requestDto.playTime}"></p>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const timeElement = document.getElementById("timeDisplay");
+                            const startTime = timeElement.innerText;
+
+                            const [hours, minutes] = startTime.split(":").map(Number);
+                            const endTime = new Date();
+                            endTime.setHours(hours + 2);
+                            endTime.setMinutes(minutes);
+
+                            const formattedEndTime = endTime.toTimeString().slice(0, 5);
+                            timeElement.innerText = `${startTime} ~ ${formattedEndTime}`;
+                        });
+                    </script>
+                </div>
+                <div class="detail">
+                    <strong>Venue</strong>
+                    <p  th:text="${requestDto.itemNm}"></p>
+                </div>
+                <div class="detail">
+                    <strong>Type</strong>
+                    <div class="details" style="display:flex;">
+                    <p th:text="${requestDto.level}"></p>
+                    <p th:text="${requestDto.gender}"></p>
+                    <p th:text="${requestDto.matchInfo}"></p>
+                    </div>
+                </div>
+                <div class="button-container">
+                     <button th:with="requestDto = ${requestDto}" onclick="requestPay()">
+                         신청하기
+                     </button>
+                </div>
+            </section>
+
+
+<!--            <div class="m-auto p-5">-->
+<!--                <h1 class="py-2 fw-bolder" style="text-align: center;" >-->
+<!--                    주문상세내역</h1>-->
+<!--                <p class="fs-5 pt-2 fw-bolder">주문 상품 정보</p>-->
+<!--                <hr>-->
+<!--                <div class="border border-white table-container">-->
+<!--                    <table class="table border-white">-->
+<!--                        <thead>-->
+<!--                        <tr class="table-light row">-->
+
+<!--                            <td class="table-light pt-6 text-center col-4">상품</td>-->
+<!--                            <td class="table-light pt-6 text-center col-2">상품명</td>-->
+<!--                            <td class="table-light pt-6 text-center col-2">수량</td>-->
+<!--                            <td class="table-light pt-6 text-center col-2">가격</td>-->
+<!--                            <td class="table-light pt-6 text-center col-2">상태</td>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody class="my-5">-->
+<!--                        <tr th:each="orderItem : ${orderItems}" class="row" style="height:80px;">-->
+
+<!--                            <td class="d-flex align-middle col-4">-->
+<!--                                <div class="repImgDiv">-->
+<!--                                    <img th:src="${orderItem.imgUrl}" class="rounded repImg" th:alt="${orderItem.itemNm}">-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                            <td class="align-middle text-center col-2 align-middle" style="line-height:90px;">-->
+<!--                                <span th:text="${orderItem.itemNm}" class="f24 font-weight-bold"></span>-->
+<!--                            </td>-->
+<!--                            <td class="align-middle text-center col-2" style="line-height:90px;">-->
+<!--                                <span th:text="${orderItem.count} + '개'"></span>-->
+<!--                            </td>-->
+<!--                            <td class="align-middle text-center col-2" style="line-height:90px;">-->
+<!--                                <span th:text="${orderItem.orderPrice} + '원'"></span>-->
+<!--                            </td>-->
+<!--                            <td class="align-middle text-center col-2" style="line-height:90px;">-->
+<!--                                미결제-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--                <p class="py-2 fs-5 fw-bolder">-->
+<!--                    주문자 정보-->
+<!--                </p>-->
+<!--                <hr>-->
+<!--                <table class="table">-->
+<!--                    <tbody>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">이름</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${requestDto.buyerName}"></td>-->
+<!--                        <td class="fs-6 fw-light align-self-center">전화번호</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${requestDto.buyerTel}"></td>-->
+<!--                    </tr>-->
+<!--                    <tr th:each="order : ${orders.getContent()}">-->
+<!--                        <td class="fs-6 fw-light align-self-center">주문번호</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${requestDto.orderUid}"></td>-->
+<!--                        <td class="fs-6 fw-light align-self-center">주문일자</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${order.orderDate}"></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+
+<!--                <p class="py-2 fs-5 fw-bolder">-->
+<!--                    배송 정보-->
+<!--                </p>-->
+<!--                <hr>-->
+<!--                <table class="table">-->
+<!--                    <tbody>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">배송지명</td>-->
+<!--                        <td class="fs-6 align-self-center">집</td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">수취인 이름</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${requestDto.buyerName}"></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">수취인 전화번호</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${requestDto.buyerTel}"></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">주소</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${requestDto.buyerAddress}"></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">배송지 요청사항</td>-->
+<!--                        <td class="fs-6 align-self-center">공동현관 1234</td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+
+<!--                <p class="py-2 fs-5 fw-bolder">-->
+<!--                    결제 정보-->
+<!--                </p>-->
+<!--                <hr>-->
+<!--                <table class="table">-->
+<!--                    <tbody>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">총 주문 금액</td>-->
+<!--                        <td class="fs-6 align-self-center" th:text="${requestDto.orderPrice}"></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">총 결제 금액</td>-->
+<!--                        <td class="fs-6 align-self-center text-danger" th:text="${requestDto.orderPrice}"></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">배송 날짜</td>-->
+<!--                        <td class="fs-6 align-self-center">배송일은 결제일로부터 영업일기준 2~3일 소요됩니다.</td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="fs-6 fw-light align-self-center">결제 수단</td>-->
+<!--                        <td class="fs-6 align-self-center">KG이니시스</td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div class="button-container">-->
+<!--                <button th:with="requestDto = ${requestDto}" onclick="requestPay()">-->
+<!--                    결제하기-->
+<!--                </button>-->
+<!--            </div>-->
+        </div>
+        <div class="second-container">
+            <section class="second-container-content">
+                <div class="guide">
+                    <a class="banner-magazine_title" href="/members/level">
+                        <h3>레벨 시스템을 소개합니다</h3>
+                    </a>
+                    <div class="banner-magazine_thumb">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_level_2.svg">
+                    </div>
+                </div>
+            </section>
+            <section class="information">
+                <div class="culture-container">
+                <h5>함께 만드는 풋살 문화</h5>
+                <ul>
+                    <li>모두를 위해 시간을 지켜주세요.</li>
+                    <li>먼저 사과하고 사과를 받아주세요.</li>
+                    <li>누구나 실수할 수 있어요. 칭찬하고 격려해주세요.</li>
+                    <li>서로 배려하고 존중 해주세요.</li>
+                    <li>함께 공격하고 수비해요.</li>
+                    <li>지나친 개인 플레이는 나 혼자 즐거워요.</li>
+                    <li>지나친 승부욕 보다는 적극적인 플레이를 좋dk해요.</li>
+                    <li>축구화는 안돼요.</li>
+                </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+</html>
