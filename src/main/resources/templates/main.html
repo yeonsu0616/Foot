@@ -6,7 +6,7 @@
 <th:block layout:fragment="css">
     <style>
        .carousel-inner > .carousel-item {
-           height : 530px;
+           height : 430px;
            position: relative;
        }
          .carousel-item img, .carousel-item svg{
@@ -285,31 +285,7 @@
         }
 
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          // GIF를 표시할 시간 (밀리초 단위로 설정, 여기서는 3초)
-          var displayTime = 3000;
 
-          // localStorage를 확인하여 사용자가 이미 GIF를 본 적이 있는지 확인
-          var hasSeenGif = localStorage.getItem('hasSeenGif');
-
-          if (!hasSeenGif) {
-              // 사용자가 처음 방문하는 경우
-              setTimeout(function() {
-                  // 로딩 화면 숨기기
-                  document.getElementById('loading-screen').style.display = 'none';
-                  // 메인 콘텐츠 표시
-                  document.getElementById('main-content').style.display = 'block';
-                  // 사용자가 GIF를 본 것으로 localStorage에 저장
-                  localStorage.setItem('hasSeenGif', 'true');
-              }, displayTime);
-          } else {
-              // 사용자가 이미 방문한 적이 있는 경우
-              document.getElementById('loading-screen').style.display = 'none';
-              document.getElementById('main-content').style.display = 'block';
-          }
-      });
-    </script>
     <script>
         function showImage(src, result) {
             document.getElementById("display-image").src = src;
@@ -362,7 +338,7 @@
     </section>
     <div id="main-content" style="display: none;"></div>
     <!-- 슬라이드 -->
-    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="padding: 0 250px 0 250px;">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -543,6 +519,7 @@
         function fetchItemsByDate(date) {
         const formattedDate = date.toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식으로 날짜를 변환
 
+
     $.ajax({
         url: '/getItemsByDate',
         type: 'GET',
@@ -593,8 +570,6 @@ function updateItems(items) {
         container.insertAdjacentHTML('beforeend', itemHtml);
     });
 }
-        //
-
     </script>
     <!---->
     <!-- 추천 랜덤 밀키트 -->
@@ -639,51 +614,13 @@ function updateItems(items) {
         <div class="more-view-arrow"></div>
     </a>
     <br>
-    <div class="swiper main-category-btn-wrapper swipe-disabled">
-        <h2 class="category-main-text"> 이주의 <span style="color:#ff6b00;">신상</span> 밀키트예요.</h2>
-        <p class="category-sub-text">주목 할 만한 신제품을 소개해요.</p>
-        <p class="h3 font-weight-bold" style="margin-left:850px" th:text="${itemSearchDto.searchQuery}"></p>
-    </div>
+<!--    <div class="swiper main-category-btn-wrapper swipe-disabled">-->
+<!--        <h2 class="category-main-text"> 이주의 <span style="color:#ff6b00;">신상</span> 밀키트예요.</h2>-->
+<!--        <p class="category-sub-text">주목 할 만한 신제품을 소개해요.</p>-->
+<!--        <p class="h3 font-weight-bold" style="margin-left:850px" th:text="${itemSearchDto.searchQuery}"></p>-->
+<!--    </div>-->
     <!-- 신상 밀키트 -->
-    <div class="new-mealkit-slide">
-        <div class="swiper-container new-Mealkit-menu swiper-container-initialized
-        swiper-container-horizontal swiper-container-free-mode swiper-container-thumbs">
-            <ul class="swiper-wrapper prd-item-list" style="transform: translate3d(0px, 0px, 0px);">
-                <th:block th:each="item, status: ${items.getContent()}">
-                    <li class="swiper-slide swiper-slide-visible swiper-slide-active swiper-slide-thumb-active"
-                        style="width: 285px; margin-right: 20px;">
-                        <div class="prd-item">
-                            <div class="img">
-                                <a>
-                                    <br>
-                                    <img class="swiper-lazy swiper-lazy-loaded" alt="이미지가 존재하지 않습니다." style="margin-left:70px;" onclick="changeContent(this)"
-                                         onerror="fnPrdNoImage('/resources/pc/images', this);"  th:src="${item.imgUrl}">
-                                </a>
-                            </div>
-                            <div th:if="${not #strings.isEmpty(item.itemNm)}" class="center">
-                            <div class="desc-bottom">
-                                <p class="tit">
-                                    <a class="text-elps2" style="margin-left:60px; font-size:15px; text-decoration:none;">[[${item.itemNm}]]</a>
-                                    <input type="hidden" id="price" th:value="${item.price}">
-                                </p>
-                            </div>
-                        </div>
-                        </div>
-                    </li>
-                </th:block>
-            </ul>
-        </div>
-        <div id="display-container" style="margin-top: 100px; text-align:center;">
-            <div id="description1" th:if="${not #lists.isEmpty(items.getContent())}">
-            <img id="display-image" width="600px" height="400px"
-                 alt="선택된 이미지" th:src="${items.getContent[0].imgUrl}">
-            </div>
-            <span class="img3"></span>
-            <div id="description" th:if="${not #lists.isEmpty(items.getContent())}">
-                <div th:utext="'<span>' + ${items.getContent()[0].itemNm} + '<hr>' + ${items.getContent()[0].price} + '원</span>'"></div>
-            </div>
-        </div>
-    </div>
+
 </div>
 <br>
 <div th:replace="footer :: footer"></div>

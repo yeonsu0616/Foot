@@ -18,7 +18,7 @@ public class MainItemDto {
     private String itemDetail;
     private String imgUrl;
     private Integer price;
-//    private LocalDate playDate;
+    private String playDate;
     private LocalTime playTime;
     private String matchInfo;
     private ItemSellStatus itemSellStatus;
@@ -26,7 +26,7 @@ public class MainItemDto {
     private String gender;
     @QueryProjection //Querydsl 결과 조회 시 MainItemDto 객체로 바로 오도록  활용
     public MainItemDto(Long id, String itemNm, String itemDetail, String imgUrl, Integer price, LocalTime playTime,
-                       String matchInfo, ItemSellStatus itemSellStatus,String level, String gender){
+                       String matchInfo, ItemSellStatus itemSellStatus,String level, String gender, String playDate){
         this.id = id;
         this.itemNm = itemNm;
         this.itemDetail = itemDetail;
@@ -37,7 +37,7 @@ public class MainItemDto {
         this.itemSellStatus=itemSellStatus;
         this.level = level;
         this.gender = gender;
-//        this.playDate=playDate;
+        this.playDate=playDate;
     }
 
     public String getFormattedPlayTime() {
@@ -54,7 +54,7 @@ public class MainItemDto {
                 ? item.getItemImgList().get(0).getImgUrl()
                 : null; // 이미지가 없으면 null
         return new MainItemDto(item.getId(), item.getItemNm(), item.getItemDetail(), imgUrl, item.getPrice(),
-                item.getPlayTime(),item.getMatchInfo(),item.getItemSellStatus(),item.getLevel(),item.getGender());
+                item.getPlayTime(),item.getMatchInfo(),item.getItemSellStatus(),item.getLevel(),item.getGender(), item.getPlayDate());
     }
 
 

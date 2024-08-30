@@ -39,7 +39,7 @@
         }
 
         .nav-links {
-            margin-left: auto; /* 링크들을 오른쪽으로 정렬 */
+
         }
 
         .navbar-nav .nav-item .nav-link {
@@ -56,7 +56,6 @@
            flex-grow: 1;
            max-width: 600px;
            text-align:center;
-           margin-left: 330px;
        }
        .search-bar input {
            border: 2px solid #ccc;
@@ -74,6 +73,9 @@
             height: 20px;
             margin-top: 45px;
         }
+        .navbar-expand-lg .navbar-collapse{
+            justify-content: space-evenly;
+        }
     </style>
 
     <nav class="navbar navbar-expand-lg">
@@ -86,7 +88,7 @@
             </button>
 
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto" style="align-items:center;">
+                <ul class="navbar-nav " style="align-items:center;">
                     <a class="navbar-brand" href="/">F&F</a>
                     <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
                         <a class="nav-link" href="/admin/item/new">매치 등록</a>
@@ -100,12 +102,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/orders">신청이력</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/itemRec">추천 밀키트</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/members/delivery">배송조회</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/itemRec">추천 밀키트</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/members/delivery">배송조회</a>-->
+<!--                    </li>-->
                 </ul>
                 <!-- 검색바 -->
                 <ul class="navbar-nav nav-links">

@@ -79,7 +79,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         //where im.repImgYn = "Y" and i.itemNm like %searchQuery% order by i.id desc
         //QMainItemDto @QueryProjection을 하용하면 DTO로 바로 조회 가능
         QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,
-                        item.itemDetail,itemImg.imgUrl,item.price,item.playTime,item.matchInfo,item.itemSellStatus,item.level,item.gender))
+                        item.itemDetail,itemImg.imgUrl,item.price,item.playTime,item.matchInfo,item.itemSellStatus,item.level,item.gender,item.playDate))
                 // join 내부조인 .repImgYn.eq("Y") 대표이미지만 가져온다.
                 .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
