@@ -10,7 +10,7 @@
 
         .navbar-brand {
             color: #000000;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: bold;
             text-align: center;
         }
@@ -38,18 +38,6 @@
             border-radius: 50%;
         }
 
-        .nav-links {
-
-        }
-
-        .navbar-nav .nav-item .nav-link {
-            color: #ff6600;
-            font-weight: bold;
-            font-size: 1.3rem; /* 폰트 크기 조정 */
-            margin-left: 10px; /* 좌측 여백 */
-            margin-right: 10px; /* 우측 여백 */
-        }
-
         /* 검색바 스타일 */
         .search-bar {
 
@@ -74,7 +62,7 @@
             margin-top: 45px;
         }
         .navbar-expand-lg .navbar-collapse{
-            justify-content: space-evenly;
+            justify-content: space-around;
         }
     </style>
 
@@ -88,19 +76,13 @@
             </button>
 
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav " style="align-items:center;">
+                <ul class="navbar-nav " style="align-items:center; margin-right:0px;">
                     <a class="navbar-brand" href="/">F&F</a>
-                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                        <a class="nav-link" href="/admin/item/new">매치 등록</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                        <a class="nav-link" href="/admin/items">매치 관리</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://sports.news.naver.com/kfootball/index">국내축구</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/cart">찜</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/orders">신청이력</a>
+                        <a class="nav-link" href="https://sports.news.naver.com/wfootball/index">해외축구</a>
                     </li>
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" href="/itemRec">추천 밀키트</a>-->
@@ -110,7 +92,7 @@
 <!--                    </li>-->
                 </ul>
                 <!-- 검색바 -->
-                <ul class="navbar-nav nav-links">
+                <ul class="navbar-nav nav-links" style="margin-left:60px;">
                     <div class="search-bar">
                         <form th:action="@{/}" method="get">
                             <img src="/img/search.png" alt="search">

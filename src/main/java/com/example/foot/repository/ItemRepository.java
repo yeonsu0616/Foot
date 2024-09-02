@@ -34,5 +34,13 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
 
     List<Item> findByPlayDate(String playDate);
     List<Item> findByPlayDateOrderByPlayTime(String playDate);
+    @Query("SELECT i FROM Item i WHERE i.gender = '여자만'")
+    List<Item> findByGender(String gender);
+
+    @Query("SELECT i FROM Item i WHERE i.level = '아마추어 1이하'")
+    List<Item> findByLevel1(String level);
+
+    @Query("SELECT i FROM Item i WHERE i.level = '아마추어 2이상'")
+    List<Item> findByLevel2(String level);
 
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/layout1}">
 <head>
     <meta charset="UTF-8">
@@ -190,9 +190,21 @@ body {
         <div class="main-content">
             <div class="section_title">나의 F&F</div>
             <ul class="menu">
+                <li class="my-menu-list_label" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" href="/admin/item/new">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_friend_match.svg" alt="매치 등록">
+                        매치 등록
+                    </a>
+                </li>
+                <li class="my-menu-list_label" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" href="/admin/items">
+                        <img src="https://d31wz4d3hgve8q.cloudfront.net/media/ic_nav_social_indoor.svg" alt="매치 관리">
+                        매치 관리
+                    </a>
+                </li>
                 <li>
                     <div class="my-menu-list_label">
-                        <a href="/cart">
+                        <a href="/orders">
                         <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_myplab_color.svg"
                              alt="신청 내역">
                         신청 내역
@@ -201,9 +213,11 @@ body {
                 </li>
                 <li>
                     <div class="my-menu-list_label">
+                        <a href="/cart">
                         <img src="https://d31wz4d3hgve8q.cloudfront.net/static/img/ic_coupon_color.svg"
-                             alt="쿠폰">
-                        <span>쿠폰</span>
+                             alt="찜 목록">
+                        <span>찜 목록</span>
+                        </a>
                     </div>
                 </li>
                 <li>

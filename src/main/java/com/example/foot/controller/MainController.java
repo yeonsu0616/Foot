@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -68,5 +70,46 @@ public class MainController {
         System.out.println("Requested playDate1: " + playDate);
         return itemService.getItemsByDateSortedByTime(playDate);
     }
+
+    @GetMapping(value = "/earlybird")
+    public String earlybird(){
+        return "/icons/EarlyBird";
+    }
+    @GetMapping(value = "/beginner")
+    public String beginner(Model model){
+        List<Item> beginnerItems = itemService.getItemByLevel1("아마추어 1이하");
+
+        Map<String, List<Item>> itemsByDate = beginnerItems.stream()
+                .collect(Collectors.groupingBy(Item::getPlayDate));
+
+        model.addAttribute("itemsByDate",itemsByDate);
+        return "/icons/beginner";
+    }
+    @GetMapping(value = "/woman")
+    public String woman(Model model) {
+        List<Item> womanItems = itemService.getItemByGender("여자만");
+
+        // 날짜별로 아이템을 그룹화
+        Map<String, List<Item>> itemsByDate = womanItems.stream()
+                .collect(Collectors.groupingBy(Item::getPlayDate)); // Item 클래스에 getDate() 메소드가 있다고 가정
+
+        // 모델에 추가
+        model.addAttribute("itemsByDate", itemsByDate);
+        System.out.println(itemsByDate);
+        return "/icons/woman";
+    }
+    @GetMapping(value = "/semi")
+    public String semi(Model model){
+        List<Item> semiItems = itemService.getItemByLevel2("아마추어 2이상");
+
+        // 날짜별로 아이템을 그룹화
+        Map<String, List<Item>> itemsByDate = semiItems.stream()
+                .collect(Collectors.groupingBy(Item::getPlayDate)); // Item 클래스에 getDate() 메소드가 있다고 가정
+
+        // 모델에 추가
+        model.addAttribute("itemsByDate", itemsByDate);
+        return "/icons/semi";
+    }
+
 
 }

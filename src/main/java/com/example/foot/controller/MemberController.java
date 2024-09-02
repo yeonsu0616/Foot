@@ -80,10 +80,10 @@ public class MemberController {
         }
         return new ResponseEntity<String>("인증 코드를 올바르게 입력해주세요.",HttpStatus.BAD_REQUEST);
     }
-    @GetMapping(value = "/delivery")
-    public String delivery(){
-        return "/delivery/delivery tracking";
-    }
+//    @GetMapping(value = "/delivery")
+//    public String delivery(){
+//        return "/delivery/delivery tracking";
+//    }
 
     @GetMapping(value = "/invite")
     public String invite(){

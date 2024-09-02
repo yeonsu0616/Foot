@@ -128,6 +128,20 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<Item> getItemByGender(String gender){
+        return itemRepository.findByGender(gender);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Item> getItemByLevel1(String level){
+        return itemRepository.findByLevel1(level);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Item> getItemByLevel2(String level){
+        return itemRepository.findByLevel2(level);
+    }
 
 
 }
