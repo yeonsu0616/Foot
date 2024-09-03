@@ -25,5 +25,10 @@ public class ItemImg extends BaseEntity {
         this.imgName = imgName;
         this.imgUrl = imgUrl;
     }
+
+    public void setCrawlingImg(String imgUrl){
+        this.imgUrl = imgUrl;
+        this.repImgYn = "Y"; //크롤링된 이미지를 대표 이미지를 설정
+    }
 }
 

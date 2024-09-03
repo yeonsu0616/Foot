@@ -1,5 +1,6 @@
 package com.example.foot.service;
 
+import com.example.foot.constant.ItemSellStatus;
 import com.example.foot.dto.ItemFormDto;
 import com.example.foot.dto.ItemImgDto;
 import com.example.foot.dto.ItemSearchDto;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -143,5 +145,30 @@ public class ItemService {
         return itemRepository.findByLevel2(level);
     }
 
+    public void saveCrawledData(String title, String formattedDate, String formattedTime, String firstImageUrl,
+                                String level, String gender, String matchType, String numberOfPlayers, String shoesType,
+                                String address, String detail) {
 
+        Item item = new Item();
+        ItemImg itemImg = new ItemImg();
+        item.setItemNm(title);
+        item.setPlayDate(formattedDate);
+        item.setPlayTime(LocalTime.parse(formattedTime)); // assuming formattedTime is in HH:mm format
+        itemImg.setImgUrl(firstImageUrl);
+        item.setLevel(level);
+        item.setGender(gender);
+        item.setMatchInfo(matchType);
+        item.setMemberNumber(numberOfPlayers);
+        item.setShoes(shoesType);
+        item.setPlayAddress(address);
+        item.setItemDetail(detail);
+
+        // You can set price, stockNumber, and other fields as needed
+        item.setPrice(10000); // Example price
+        item.setStockNumber(18); // Example stock number
+        item.setItemSellStatus(ItemSellStatus.SELL); // Example sell status
+
+        // Save the item to the database
+        itemRepository.save(item);
+    }
 }

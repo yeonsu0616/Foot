@@ -65,4 +65,11 @@ public class ItemImgService {
             savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
         }
     }
+
+    //크롤링된 이미지 저장 메서드
+    public void savedCrawlingImg(ItemImg itemImg,String imgUrl){
+        itemImg.setCrawlingImg(imgUrl);
+        itemImgRepository.save(itemImg);
+    }
+
 }
