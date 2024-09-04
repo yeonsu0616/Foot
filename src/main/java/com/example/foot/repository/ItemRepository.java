@@ -12,12 +12,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 //경고에요.
 public interface ItemRepository extends JpaRepository<Item, Long>,
         QuerydslPredicateExecutor<Item>, ItemRepositoryCustom {
     // select * from item where itemNm = ?(String itemNm)
-    List<Item> findByItemNm(String itemNm);
+    @Query("SELECT i FROM Item i WHERE i.itemNm LIKE %:itemNm%")
+    List<Item> findByItemNm(@Param("itemNm")String itemNm);
     List<Item> findByItemNmOrItemDetail(String itemNm, String itemDetail);
     List<Item> findByPriceLessThan(Integer price);
     //select * from item where price < Integer price order by desc;
@@ -42,5 +44,9 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
 
     @Query("SELECT i FROM Item i WHERE i.level = '아마추어 2이상'")
     List<Item> findByLevel2(String level);
+
+
+//    @Query("SELECT i FROM Item i WHERE i.id = :id")
+//    Optional<MainItemDto> findRItemById(Long id);
 
 }

@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor // final, @NonNull 변수에 붙으면 자동 주입(Autowired)을 해줍니다.
@@ -28,6 +30,10 @@ public class MemberService implements UserDetailsService {
     }
         public Member findByEmail(String email){
         return memberRepository.findByEmail(email);
+    }
+
+    public Member findByName(String name){
+        return memberRepository.findByName(name);
     }
 
     @Override

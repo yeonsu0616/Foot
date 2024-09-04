@@ -12,16 +12,15 @@ import com.example.foot.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -145,6 +144,11 @@ public class ItemService {
         return itemRepository.findByLevel2(level);
     }
 
+    @Transactional(readOnly = true)
+    public List<Item> getItemByInside(String itemNm){
+        return itemRepository.findByItemNm(itemNm);
+    }
+
     public void saveCrawledData(String title, String formattedDate, String formattedTime, String firstImageUrl,
                                 String level, String gender, String matchType, String numberOfPlayers, String shoesType,
                                 String address, String detail) {
@@ -171,4 +175,30 @@ public class ItemService {
         // Save the item to the database
         itemRepository.save(item);
     }
+
+//    public List<MainItemDto> getRecentItemsFromSession(List<MainItemDto> recentItems, MainItemDto mainItemDto) {
+//        if (recentItems == null) {
+//            recentItems = new ArrayList<>();
+//        }
+//
+//        // 기존 리스트에서 중복된 항목 제거
+//        recentItems.removeIf(item -> item.getId().equals(mainItemDto.getId()));
+//
+//        // 리스트에 새 항목 추가
+//        recentItems.add(0, mainItemDto);
+//
+//        // 리스트 크기 제한
+//        if (recentItems.size() > 5) {
+//            recentItems = recentItems.subList(0, 5);
+//        }
+//
+//        return recentItems;
+//    }
+//
+//    public MainItemDto findRItemById(Long id) {
+//        return itemRepository.findById(id)
+//                .map(item -> new MainItemDto(item.getId(), item.getItemNm(), item.getItemDetail(), item.getGender(), item.getPrice(), item.getPlayTime(),
+//                        item.getMatchInfo(),item.getItemSellStatus(),item.getLevel(),item.getPlayDate(),item.getPlayAddress()))
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid item ID: " + id));
+//    }
 }

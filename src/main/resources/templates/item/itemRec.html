@@ -4,104 +4,103 @@
       layout:decorate="~{layouts/layout1}">
 <th:block layout:fragment="css">
     <style>
-        /* 추천 밀키트 페이지 스타일 */
-
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9; /* 부드러운 배경색 */
             margin: 0;
             padding: 0;
         }
 
-
-        /* 추천 밀키트 페이지 스타일 */
-
         h2 {
-            color: #ff6600;
+            color: #333; /* 진한 회색 텍스트 */
             text-align: center;
-            margin-top: 20px;
-            font-size: 1.8rem;
+            margin-top: 30px;
+            font-size: 2rem;
+            font-weight: 600;
         }
 
         .container {
             padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .total-items {
             text-align: center;
             margin-bottom: 20px;
             font-weight: bold;
+            font-size: 1.2rem;
+            color: #555; /* 중간 회색 */
         }
 
         .row-cols-5 {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            gap: 20px; /* 카드 사이의 간격 */
         }
 
         .card {
-            width: 250px;
-            margin: 15px;
-            border: 1px solid #ffcc99;
-            border-radius: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: none;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: #fff; /* 카드 배경색 */
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
 
         .card img {
             width: 100%;
-            height: 230px;
+            height: 200px;
             object-fit: cover;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-bottom: 5px solid #3498db; /* 파란색 하단 테두리 */
         }
 
         .card-body {
-            padding: 15px;
-            background-color: #fff;
-            text-decoration:none;
+            padding: 20px;
+            text-align: center;
         }
 
         .card-title {
-            color: #ff6600;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 40px;
+            color: #333; /* 진한 회색 텍스트 */
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 10px;
             text-decoration: none;
-            height:40px;
         }
-        a{
-        text-decoration:none;
+
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
         .card-price {
-            color: #ff3300;
-            font-size: 1.8rem;
+            color: #2ecc71; /* 초록색 가격 텍스트 */
+            font-size: 1.4rem;
             font-weight: bold;
         }
 
         .card-description {
-            color: #666;
-            font-size: 1.8rem;
+            color: #777; /* 연한 회색 텍스트 */
+            font-size: 1rem;
             margin-top: 10px;
         }
 
         a.text-dark:hover {
             text-decoration: none;
+            color: #2ecc71; /* 초록색으로 변경된 텍스트 색상 */
         }
     </style>
-
-
 </th:block>
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-
     </script>
 </th:block>
 
@@ -111,26 +110,26 @@
 </head>
 <div layout:fragment="content">
     <br>
-    <h2>추천 밀키트</h2>
+    <h2>매치</h2>
     <div class="container text-center">
         <div class="total-items">
-            전체 <span th:text="${items.totalElements}" style="color:#ff6600"></span>개의 상품이 있습니다.
+            전체 <span th:text="${items.totalElements}" style="color:#3498db"></span>개의 상품이 있습니다.
         </div>
         <div class="row row-cols-5">
             <div th:each="item, status: ${items}" class="col">
                 <div class="card">
                     <a th:href="'/item/' + ${item.id}" class="text-dark">
-                        <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}" height="400">
+                        <img th:src="${item.imgUrl}" class="card-img-top" th:alt="${item.itemNm}">
                         <div class="card-body">
                             <h4 class="card-title" th:text="${item.itemNm}"></h4>
                             <hr>
-                            <h3 class="card-title text-danger" th:text="${item.price} + '원'"></h3>
+                            <h3 class="card-time" th:text="${item.playDate}"></h3>
+                            <h3 class="card-time" th:text="${item.playTime}"></h3>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 </html>

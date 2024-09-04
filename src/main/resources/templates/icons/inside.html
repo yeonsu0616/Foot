@@ -5,41 +5,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>초보자 매치</title>
+    <title>실내 매치</title>
 </head>
 <th:block layout:fragment="css">
-    <style>
-        .image{
-            color: white;
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
+<style>
+.image{
+    color: white;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
 
-        }
-            .venueTitle{
-                border-radius: 20px;
-                padding: 50px 50px 120px 50px;
-                position:relative;
-                background-image: linear-gradient(rgba(31, 40, 55, 0.6), rgba(31, 40, 55, 1));
-            }
-            .venueTitle .venueIndex a {
-                color:#eee;
-            }
+}
+    .venueTitle{
+        border-radius: 20px;
+        padding: 50px 50px 120px 50px;
+        position:relative;
+        background-image: linear-gradient(rgba(31, 40, 55, 0.6), rgba(31, 40, 55, 1));
+    }
+    .venueTitle .venueIndex a {
+        color:#eee;
+    }
 
-            .venueTitle .venueIndex{
-                margin-bottom:10px;
-                font-size:14px;
-                color:#eee;
-            }
-            .venueDesc{
-                margin-top:20px;
-            }
-            .venueDesc h1{
-               font-weight: 400;
-              font-size: 27px;
-              margin-bottom: 10px;
-            }
-        .venueTitle span{
+    .venueTitle .venueIndex{
+        margin-bottom:10px;
+        font-size:14px;
+        color:#eee;
+    }
+    .venueDesc{
+        margin-top:20px;
+    }
+    .venueDesc h1{
+       font-weight: 400;
+      font-size: 27px;
+      margin-bottom: 10px;
+    }
+    .venueTitle span{
                 font-size: 14px;
                 opacity: 0.8;
         }
@@ -50,26 +50,26 @@
                 font-size: larger;
         }
 
-    </style>
+</style>
 </th:block>
 <body>
 <div layout:fragment="content" class="content">
-    <div style=" max-width: 1024px; margin: 0 auto;">
-        <div class="image" style="background-image: url(https://d31wz4d3hgve8q.cloudfront.net/media/explore_cover_mid.jpg);">
+    <div style="max-width: 1024px; margin: 0 auto;">
+        <div class="image" style="background-image: url(https://d31wz4d3hgve8q.cloudfront.net/media/240408-%E1%84%90%E1%85%A1%E1%86%B7%E1%84%89%E1%85%A2%E1%86%A8%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%89%E1%85%B5%E1%86%AF%E1%84%82%E1%85%A2%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A1%E1%86%BC.png);">
             <div class="venueTitle">
                 <div class="venueIndex" style="display:flex;">
                     <a href="/" style="text-decoration: auto;">홈</a>
-                    <p> > 비기너 매치</p>
+                    <p> > 실내 구장</p>
                 </div>
                 <div class="venueDesc">
-                    <h1>비기너 매치</h1>
-                    <span>비슷한 레벨의 플래버가 모인 매치에 참여해 보세요</span>
+                    <h1>실내 구장</h1>
+                    <span>실내 구장에서 열리는 매치에 참여해 보세요!</span>
                 </div>
             </div>
         </div>
         <div class="list--match-schedule--container" style="margin-top: 30px;">
             <ul>
-                <!-- playDate로 그룹화된 데이터를 반복 -->
+                <!-- inner로 그룹화된 데이터를 반복 -->
                 <li th:each="entry : ${itemsByDate}">
                     <div>
                         <!-- playDate 출력 -->
@@ -113,6 +113,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

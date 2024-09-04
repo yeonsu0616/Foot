@@ -14,6 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+import static org.eclipse.jdt.internal.compiler.parser.Parser.name;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RequestMapping("/members")
 @Controller
 @RequiredArgsConstructor
@@ -104,7 +109,13 @@ public class MemberController {
     }
 
     @GetMapping(value = "/memberinfo")
-    public String memberinfo(){
+    public String memberinfo(@ModelAttribute MemberFormDto memberFormDto, Model model){
+        String name = memberFormDto.getName();
+        System.out.println("Received name: " + name );
+
+        Member member = memberService.findByName(name);
+        model.addAttribute("member",member); // 모델에 멤버 정보를 추가
+        System.out.println(name);
         return "/member/memberinfo";
     }
 
