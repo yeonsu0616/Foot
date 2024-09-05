@@ -169,13 +169,11 @@ body {
 <div layout:fragment="content" class="form-container" style="display:flex;">
     <div class="sidebar">
         <div class="profile-info">
-<!--            <h2 th:text="{memberFormDto.name}"></h2>-->
-            <h2 style="text-align: center;margin-bottom: 30px;">My page</h2>
+            <h2 th:text="${member.name}">회원 이름</h2>
+            <div style="display:flex; gap:5px;">
+                <p th:text="${member.sex} + ' · ' + ${member.style} + ' · ' + ${member.skills}"></p>
+            </div>
         </div>
-<!--        <div class="status">-->
-<!--            <p>매너</p>-->
-<!--            <span class="status-icon">😊 좋아요</span>-->
-<!--        </div>-->
         <div class="guide">
             <a class="banner-magazine_title" href="/members/level">
                 <p>F&F 가이드</p>

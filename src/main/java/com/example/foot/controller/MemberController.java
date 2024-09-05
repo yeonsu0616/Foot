@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,12 +62,12 @@ public class MemberController {
 
     @GetMapping(value = "/login")
     public String loginMember(){
-        return "/member/memberLoginForm";
+        return "member/memberLoginForm";
     }
     @GetMapping(value = "/login/error")
     public String loginError(Model model){
         model.addAttribute("loginErrorMsg","아이디 또는 비밀번호를 확인해주세요");
-        return "/member/memberLoginForm";
+        return "member/memberLoginForm";
     }
 
     @PostMapping("/{email}/emailConfirm")
@@ -92,46 +93,54 @@ public class MemberController {
 
     @GetMapping(value = "/invite")
     public String invite(){
-        return "/slide/invite";
+        return "slide/invite";
     }
     @GetMapping(value = "/culture")
     public String culture(){
-        return "/slide/culture";
+        return "slide/culture";
     }
 
     @GetMapping(value = "/team")
     public String team(){
-        return "/slide/team";
+        return "slide/team";
     }
     @GetMapping(value = "/team1")
     public String team1(){
-        return "/slide/team1";
+        return "slide/team1";
     }
 
     @GetMapping(value = "/memberinfo")
-    public String memberinfo(@ModelAttribute MemberFormDto memberFormDto, Model model){
-        String name = memberFormDto.getName();
-        System.out.println("Received name: " + name );
+    public String memberinfo(@ModelAttribute MemberFormDto memberFormDto, Model model, Authentication authentication){
+//        String name = memberFormDto.getName();
+//        System.out.println("Received name: " + name );
+//
+//        Member member = memberService.findByName(name);
+//        model.addAttribute("member",member); // 모델에 멤버 정보를 추가
+//        System.out.println(name);
+        // 로그인된 사용자의 이메일 가져오기
+        String email = authentication.getName(); // 기본적으로 이메일이 username에 저장된 경우
 
-        Member member = memberService.findByName(name);
-        model.addAttribute("member",member); // 모델에 멤버 정보를 추가
-        System.out.println(name);
-        return "/member/memberinfo";
+        // 이메일을 통해 회원 정보를 가져오기
+        Member member = memberService.findByEmail(email);
+
+        // 모델에 회원 정보를 추가
+        model.addAttribute("member", member);
+        return "member/memberinfo";
     }
 
     @GetMapping(value = "/level")
     public String level(){
-        return "/LevelSystem/level";
+        return "LevelSystem/level";
     }
 
     @GetMapping(value = "/intro")
     public String intro(){
-        return "/more/intro";
+        return "more/intro";
     }
 
     @GetMapping(value = "/intro4")
     public String intro4(){
-        return "/more/intro4";
+        return "more/intro4";
     }
 
 

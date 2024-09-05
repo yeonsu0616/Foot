@@ -75,6 +75,42 @@
             height: 20px;
             margin-top: 45px;
         }
+        /*추가*/
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .radio-group input[type="radio"],
+        .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .radio-group input[type="radio"]:checked + label,
+        .checkbox-group input[type="checkbox"]:checked + label {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
     </style>
 </th:block>
 <!-- 사용자 스크립트 추가 -->
@@ -256,6 +292,72 @@
             <input type="text" th:field="*{tel}" class="form-control" placeholder="전화번호를 입력해주세요.">
             <p th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="fieldError">Incorrect date</p>
         </div>
+        <!--추가 등록사항-->
+
+            <!-- 성별 섹션 -->
+            <div class="form-group">
+                <label th:for="sex">성별</label>
+                <div class="radio-group">
+                    <input type="radio" id="male" th:field="*{sex}" value="남자" required>
+                    <label for="male">남자</label>
+
+                    <input type="radio" id="female" th:field="*{sex}" value="여자">
+                    <label for="female">여자</label>
+                </div>
+                <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="fieldError">성별을 선택해주세요.</p>
+            </div>
+
+            <!-- 좋아하는 스타일 섹션 -->
+            <div class="form-group">
+                <label th:for="style">좋아하는 스타일</label>
+                <div class="radio-group">
+                    <input type="radio" id="attack" th:field="*{style}" value="공격" required>
+                    <label for="attack">공격</label>
+
+                    <input type="radio" id="balance" th:field="*{style}" value="밸런스">
+                    <label for="balance">밸런스</label>
+
+                    <input type="radio" id="defense" th:field="*{style}" value="수비">
+                    <label for="defense">수비</label>
+                </div>
+                <p th:if="${#fields.hasErrors('style')}" th:errors="*{style}" class="fieldError">스타일을 선택해주세요.</p>
+            </div>
+
+
+            <!-- 자신있는 능력 섹션 -->
+            <div class="form-group">
+                <label th:for="skills">자신있는 능력</label>
+                <div class="radio-group">
+                    <input type="radio" id="shoot" th:field="*{skills}" value="슛" required>
+                    <label for="shoot">슛</label>
+
+                    <input type="radio" id="pass" th:field="*{skills}" value="패스">
+                    <label for="pass">패스</label>
+
+                    <input type="radio" id="dribble" th:field="*{skills}" value="드리블">
+                    <label for="dribble">드리블</label>
+
+                    <input type="radio" id="body" th:field="*{skills}" value="체력">
+                    <label for="body">체력</label>
+
+                    <input type="radio" id="speed" th:field="*{skills}" value="스피드">
+                    <label for="speed">스피드</label>
+
+                    <input type="radio" id="physical" th:field="*{skills}" value="피지컬">
+                    <label for="physical">피지컬</label>
+
+                    <input type="radio" id="goalkeeper" th:field="*{skills}" value="골키퍼">
+                    <label for="goalkeeper">골키퍼</label>
+                </div>
+                <p th:if="${#fields.hasErrors('skills')}" th:errors="*{skills}" class="fieldError">능력을 선택해주세요.</p>
+            </div>
+
+
+            <!-- 제출 버튼 -->
+<!--            <div class="submit-btn">-->
+<!--                <button type="submit">제출</button>-->
+<!--            </div>-->
+
         <div style="text-align: center">
             <button type="submit" class="btn btn-primary" style="">Submit</button>
         </div>
@@ -263,76 +365,93 @@
     </form>
 </div>
 </html>
-<script>
-    function mailSend(){
+<!--<script>-->
+<!--    // 폼 제출 시 콘솔에 폼 데이터 출력 (예시)-->
+<!--    document.getElementById('playerForm').addEventListener('submit', function(event) {-->
+<!--        event.preventDefault(); // 서버로 제출 방지 (디버그용)-->
 
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
+<!--        const formData = new FormData(this);-->
 
-        var mail = $("#sendmail").val();
+<!--        // 폼 데이터 출력-->
+<!--        console.log("Form data:");-->
+<!--        for (const [key, value] of formData.entries()) {-->
+<!--            console.log(key, value);-->
+<!--        }-->
 
-        var url = "/members/" + mail +"/emailConfirm";
-        var paramData = {
-            email: mail
-       }
-       var param = JSON.stringify(paramData);
+<!--        // 실제로 서버로 제출하려면 아래 주석 해제-->
+<!--         this.submit();-->
+<!--    });-->
+<!--</script>-->
+<!--<script>-->
+<!--    function mailSend(){-->
 
-       $.ajax({
-            url      : url,
-            type     : "POST",
-            contentType : "application/json",
-            data     : param,
-            beforeSend : function(xhr){
-                xhr.setRequestHeader(header, token);
-            },
-            dataType : "json",
-            cache   : false,
-            success  : function(result, status){
-                   alert(result);
-            },
-            error : function(jqXHR, status, error){
-                if(jqXHR.status == '401'){
-                    location.href='/members/login';
-                } else{
-                    alert(jqXHR.responseText);
-                }
-            }
-       });
-    }
+<!--        var token = $("meta[name='_csrf']").attr("content");-->
+<!--        var header = $("meta[name='_csrf_header']").attr("content");-->
 
-    function codeCheck(){
+<!--        var mail = $("#sendmail").val();-->
 
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
+<!--        var url = "/members/" + mail +"/emailConfirm";-->
+<!--        var paramData = {-->
+<!--            email: mail-->
+<!--       }-->
+<!--       var param = JSON.stringify(paramData);-->
 
-        var code = $("#codecheck").val();
+<!--       $.ajax({-->
+<!--            url      : url,-->
+<!--            type     : "POST",-->
+<!--            contentType : "application/json",-->
+<!--            data     : param,-->
+<!--            beforeSend : function(xhr){-->
+<!--                xhr.setRequestHeader(header, token);-->
+<!--            },-->
+<!--            dataType : "json",-->
+<!--            cache   : false,-->
+<!--            success  : function(result, status){-->
+<!--                   alert(result);-->
+<!--            },-->
+<!--            error : function(jqXHR, status, error){-->
+<!--                if(jqXHR.status == '401'){-->
+<!--                    location.href='/members/login';-->
+<!--                } else{-->
+<!--                    alert(jqXHR.responseText);-->
+<!--                }-->
+<!--            }-->
+<!--       });-->
+<!--    }-->
 
-        var url = "/members/" + code +"/codeCheck";
-        var paramData = {
-            code: code
-       }
-       var param = JSON.stringify(paramData);
+<!--    function codeCheck(){-->
 
-       $.ajax({
-            url      : url,
-            type     : "POST",
-            contentType : "application/json",
-            data     : param,
-            beforeSend : function(xhr){
-                xhr.setRequestHeader(header, token);
-            },
-            dataType : "json",
-            cache   : false,
-            success  : function(result, status){
-                    alert(result);
-            },
-            error : function(jqXHR, status, error){
-                if(jqXHR.status == '401'){
-                    location.href='/members/new';
-                } else{
-                    alert(jqXHR.responseText);
-                }
-            }
-       });
-    }
-</script>
+<!--        var token = $("meta[name='_csrf']").attr("content");-->
+<!--        var header = $("meta[name='_csrf_header']").attr("content");-->
+
+<!--        var code = $("#codecheck").val();-->
+
+<!--        var url = "/members/" + code +"/codeCheck";-->
+<!--        var paramData = {-->
+<!--            code: code-->
+<!--       }-->
+<!--       var param = JSON.stringify(paramData);-->
+
+<!--       $.ajax({-->
+<!--            url      : url,-->
+<!--            type     : "POST",-->
+<!--            contentType : "application/json",-->
+<!--            data     : param,-->
+<!--            beforeSend : function(xhr){-->
+<!--                xhr.setRequestHeader(header, token);-->
+<!--            },-->
+<!--            dataType : "json",-->
+<!--            cache   : false,-->
+<!--            success  : function(result, status){-->
+<!--                    alert(result);-->
+<!--            },-->
+<!--            error : function(jqXHR, status, error){-->
+<!--                if(jqXHR.status == '401'){-->
+<!--                    location.href='/members/new';-->
+<!--                } else{-->
+<!--                    alert(jqXHR.responseText);-->
+<!--                }-->
+<!--            }-->
+<!--       });-->
+<!--    }-->
+<!--</script>-->

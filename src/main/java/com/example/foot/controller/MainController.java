@@ -107,7 +107,7 @@ public class MainController {
         Map<String, List<Item>> itemsByDate = inside.stream()
                 .collect(Collectors.groupingBy(Item::getPlayDate));
         model.addAttribute("itemsByDate",itemsByDate);
-        return "/icons/inside";
+        return "icons/inside";
     }
     @GetMapping(value = "/beginner")
     public String beginner(Model model){
@@ -117,7 +117,7 @@ public class MainController {
                 .collect(Collectors.groupingBy(Item::getPlayDate));
 
         model.addAttribute("itemsByDate",itemsByDate);
-        return "/icons/beginner";
+        return "icons/beginner";
     }
     @GetMapping(value = "/woman")
     public String woman(Model model) {
@@ -130,7 +130,7 @@ public class MainController {
         // 모델에 추가
         model.addAttribute("itemsByDate", itemsByDate);
         System.out.println(itemsByDate);
-        return "/icons/woman";
+        return "icons/woman";
     }
     @GetMapping(value = "/semi")
     public String semi(Model model){
@@ -142,7 +142,7 @@ public class MainController {
 
         // 모델에 추가
         model.addAttribute("itemsByDate", itemsByDate);
-        return "/icons/semi";
+        return "icons/semi";
     }
 
 

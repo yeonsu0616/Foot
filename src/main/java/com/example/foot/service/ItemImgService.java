@@ -31,7 +31,7 @@ public class ItemImgService {
             imgName = fileService.uploadFile(itemImgLocation, oriImgName,
                     itemImgFile.getBytes());
             System.out.println(imgName);
-            imgUrl = "/images/item/"+imgName; //C:/Shop/item/sdkfjsldkfjlsf.jpg
+            imgUrl = "images/item/"+imgName; //C:/Shop/item/sdkfjsldkfjlsf.jpg
         }
         System.out.println("1111");
         //상품 이미지 정보 저장
@@ -54,7 +54,7 @@ public class ItemImgService {
             String oriImgName = itemImgFile.getOriginalFilename();
             String imgName = fileService.uploadFile(itemImgLocation, oriImgName,
                     itemImgFile.getBytes()); // 파일 업로드
-            String imgUrl = "/images/item/"+imgName;
+            String imgUrl = "images/item/"+imgName;
             //변경된 상품 이미지 정보를 세팅
             //상품 등록을 하는 경우에는 ItemImgRepository.save()로직을 호출 하지만
             //호출을 하지 않았습니다.

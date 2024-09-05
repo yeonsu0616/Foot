@@ -24,6 +24,7 @@ public class User{
 
     private String picture;
 
+
     private String role = "ROLE_USER";
     public User(String name, String email, String picture) {
         this.name = name;

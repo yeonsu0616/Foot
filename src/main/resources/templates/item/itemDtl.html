@@ -436,6 +436,7 @@
         }
     </style>
 </th:block>
+<body>
 <div layout:fragment="content" class="container">
     <input type="hidden" id="itemId" th:value="${item.id}">
     <!--슬라이드---->
@@ -594,18 +595,7 @@
                         <!-- 지도 보기 버튼 -->
                         <a href="#" id="showMap" onclick="showMapFunction()">지도 보기</a>
                         <script>
-                            // 주소 복사 기능
-                            function copyAddressFunction() {
-                                // 예시 주소
-                                var address = '[[${item.playAddress}]]';
 
-                                // 클립보드에 주소 복사
-                                navigator.clipboard.writeText(address).then(function () {
-                                    alert("주소가 복사되었습니다: " + address);
-                                }, function (err) {
-                                    alert("복사에 실패했습니다. " + err);
-                                });
-                            }
 
                             // 지도 보기 기능
                             function showMapFunction() {
@@ -724,6 +714,21 @@
         </div>
     </div>
 </div>
+<script>
+    // 주소 복사 기능
+    function copyAddressFunction() {
+    // 예시 주소
+    var address = '[[${item.playAddress}]]';
+
+    // 클립보드에 주소 복사
+    navigator.clipboard.writeText(address).then(function () {
+    alert("주소가 복사되었습니다: " + address);
+    }, function (err) {
+    alert("복사에 실패했습니다. " + err);
+    });
+    }
+</script>
+</body>
 </html>
 
 <script>

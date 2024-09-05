@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class MemberFormDto {
@@ -22,5 +24,17 @@ public class MemberFormDto {
     private String address;
     @NotBlank(message = "전화번호는 필수 입력 값입니다.")
     private String tel;
+
+    // 성별 필드 추가
+    @NotBlank(message = "성별은 필수 입력 값입니다.")
+    private String sex; // "남자", "여자"
+
+    // 좋아하는 스타일 추가
+    @NotBlank(message = "스타일은 필수 입력 값입니다.")
+    private String style; // "공격", "밸런스", "수비"
+
+    // 자신있는 능력 추가
+    private String skills; // "슛", "패스", "드리블", "체력", "스피드", "피지컬", "골키퍼"
+
     private String picture;
 }
