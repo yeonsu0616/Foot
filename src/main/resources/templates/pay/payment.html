@@ -194,11 +194,11 @@
                         }).done(function (response) {
                             console.log(response);
                             alert('결제가 완료되었습니다.')
-                            window.location.href = "/main";
+                            location.href = "/";
                         })
                     } else {
                         alert('결제 실패!' + rsp);
-                        window.location.href = "redirect:/";
+                        location.href = "/";
                     }
                 });
         }

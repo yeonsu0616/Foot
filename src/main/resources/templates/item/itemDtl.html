@@ -106,6 +106,27 @@
             });
         }
     </script>
+    <script>
+        function copyAddressFunction() {
+                                    var address = '[[${item.playAddress}]]';
+
+                                    // 임시 textarea 요소 생성
+                                    var tempTextArea = document.createElement("textarea");
+                                    tempTextArea.value = address;
+
+                                    // textarea 요소를 화면에 추가
+                                    document.body.appendChild(tempTextArea);
+
+                                    // textarea 내용 선택 및 복사
+                                    tempTextArea.select();
+                                    document.execCommand("copy");
+
+                                    // textarea 요소 삭제
+                                    document.body.removeChild(tempTextArea);
+
+                                    alert("주소가 복사되었습니다: " + address);
+                                }
+    </script>
 </th:block>
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -597,6 +618,8 @@
                         <script>
 
 
+
+
                             // 지도 보기 기능
                             function showMapFunction() {
                                 const mapDiv = document.getElementById("map");
@@ -714,20 +737,8 @@
         </div>
     </div>
 </div>
-<script>
-    // 주소 복사 기능
-    function copyAddressFunction() {
-    // 예시 주소
-    var address = '[[${item.playAddress}]]';
 
-    // 클립보드에 주소 복사
-    navigator.clipboard.writeText(address).then(function () {
-    alert("주소가 복사되었습니다: " + address);
-    }, function (err) {
-    alert("복사에 실패했습니다. " + err);
-    });
-    }
-</script>
+
 </body>
 </html>
 
