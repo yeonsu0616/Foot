@@ -105,6 +105,14 @@
         .row {
             margin-bottom: 15px; /* 각 행(열) 사이의 여백 */
         }
+        .custom-forestgreen {
+    background-color: forestgreen; /* 배경색을 forestgreen으로 변경 */
+    border-color: forestgreen; /* 테두리 색상도 동일하게 설정 */
+}
+
+.custom-forestgreen:hover {
+    background-color: #228b22; /* hover 시 약간 더 진한 초록색 */
+    border-color: #1c751c;
     </style>
 
 </th:block>
@@ -227,7 +235,7 @@
             </div>
         </div>
         <div th:if="${#strings.isEmpty(itemFormDto.id)}" style="text-align : center">
-            <button th:formaction="@{/admin/item/new}" type="submit" class="btn btn-primary">저장</button>
+            <button th:formaction="@{/admin/item/new}" type="submit" class="btn btn-primary custom-forestgreen">저장</button>
         </div>
         <div th:unless="${#strings.isEmpty(itemFormDto.id)}" style="text-align : center">
             <button th:formaction="@{'/admin/item/'+${itemFormDto.id}}" type="submit" class="btn btn-primary">수정</button>

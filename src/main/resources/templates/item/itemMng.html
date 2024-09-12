@@ -139,7 +139,14 @@
             margin-top: 20px;
             margin-left: 130px;
         }
-
+        .active>.page-link, .page-link.active {
+        background-color: green;
+        border-color: green;
+        }
+        a{
+        color:black;
+        text-decoration: none;
+        }
     </style>
 </th:block>
 <div layout:fragment="content">
@@ -162,7 +169,7 @@
                 <option value="createdBy">등록자</option>
             </select>
             <input th:field="*{searchQuery}" type="text" class="form-control" style="width:auto; margin-right: 15px;" placeholder="검색어를 입력해주세요">
-            <button id="searchBtn" type="submit" class="form-control btn btn-primary" style="width:auto">검색</button>
+            <button id="searchBtn" type="submit" class="form-control btn btn-info" style="width:auto">검색</button>
         </div>
         <table class="table">
             <thead>

@@ -26,8 +26,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**","/img/**","/favicon.ico","/error").permitAll()
-                .requestMatchers("/","/members/**","/item/**","/images/**","/comment/**","/getItemsByDate/**","/itemsByDate/**","/woman/**").permitAll()
-                .requestMatchers("/semi/**","/beginner","/inside/**").permitAll()
+                .requestMatchers("/","/members/**","/item/**","/images/**","/comment/**","/getItemsByDate/**","/itemsByDate/**","/woman/**","/chat/**","/chat-websocket/**").permitAll()
+                .requestMatchers("/semi/**","/beginner","/inside/**","/chat/**").permitAll()
                 .requestMatchers("/","/item/**","/itemRec").permitAll()
 
                 .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/")
                 .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                 .userService(customOAuth2UserService))
-        );
+        ).csrf(csrf->csrf.ignoringRequestMatchers("/chat-websocket/**"));
 
         http.exceptionHandling(exception -> exception
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint()));

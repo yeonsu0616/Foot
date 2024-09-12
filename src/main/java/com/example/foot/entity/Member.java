@@ -1,5 +1,6 @@
 package com.example.foot.entity;
 
+import ch.qos.logback.classic.model.LoggerModel;
 import com.example.foot.constant.Role;
 import com.example.foot.dto.MemberFormDto;
 import jakarta.persistence.*;
@@ -96,4 +97,7 @@ public class Member extends BaseEntity{
         this.style = style;
         this.skills = skills;
     }
+
+
+
 }

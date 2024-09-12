@@ -15,13 +15,15 @@ public class OAuthAttributes {
     private String email;
     private String picture;
     private String playDate;
+    private String provider;
 
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture,String provider) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.provider = provider;
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
@@ -39,17 +41,22 @@ public class OAuthAttributes {
                 attributes, userNameAttributeName,
                 (String) response.get("name"),
                 (String) response.get("email"),
-                (String) response.get("profile_image"));
+                (String) response.get("profile_image"),"naver");
     }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-        return new OAuthAttributes(attributes, userNameAttributeName, (String) profile.get("nickname"), (String) kakaoAccount.get("email"), (String) profile.get("profile_image_url"));
+        return new OAuthAttributes(attributes, userNameAttributeName,
+                (String) profile.get("nickname"),
+                (String) kakaoAccount.get("email"),
+                (String) profile.get("profile_image_url"),"kakao");
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
-        return new OAuthAttributes(attributes, userNameAttributeName, (String) attributes.get("name"), (String) attributes.get("email"), (String) attributes.get("picture"));
+        return new OAuthAttributes(attributes, userNameAttributeName, (String) attributes.get("name"),
+                (String) attributes.get("email"),
+                (String) attributes.get("picture"),"google");
     }
 
     public Member toEntity() {

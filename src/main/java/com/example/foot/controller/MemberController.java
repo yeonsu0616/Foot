@@ -1,9 +1,11 @@
 package com.example.foot.controller;
 
 import com.example.foot.dto.MemberFormDto;
+import com.example.foot.dto.SessionUser;
 import com.example.foot.entity.Member;
 import com.example.foot.service.MailService;
 import com.example.foot.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import static org.eclipse.jdt.internal.compiler.parser.Parser.name;
@@ -27,6 +30,7 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
+    private final HttpSession httpSession;
     String confirm = "";
     boolean confirmCheck = false;
 
@@ -108,9 +112,16 @@ public class MemberController {
     public String team1(){
         return "slide/team1";
     }
+    private String getEmailFromPrincipalOrSession(Principal principal) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user != null) {
+            return user.getEmail();
+        }
+        return principal.getName();
+    }
 
     @GetMapping(value = "/memberinfo")
-    public String memberinfo(@ModelAttribute MemberFormDto memberFormDto, Model model, Authentication authentication){
+    public String memberinfo(@ModelAttribute MemberFormDto memberFormDto, Model model, Authentication authentication, Principal principal){
 //        String name = memberFormDto.getName();
 //        System.out.println("Received name: " + name );
 //
@@ -118,10 +129,29 @@ public class MemberController {
 //        model.addAttribute("member",member); // 모델에 멤버 정보를 추가
 //        System.out.println(name);
         // 로그인된 사용자의 이메일 가져오기
-        String email = authentication.getName(); // 기본적으로 이메일이 username에 저장된 경우
-
+        String email = getEmailFromPrincipalOrSession(principal);
+        String name = memberFormDto.getEmail();
         // 이메일을 통해 회원 정보를 가져오기
         Member member = memberService.findByEmail(email);
+        System.out.println("멤버 이름 : " +principal.getName());
+        System.out.println("멤버 찐 이름: "+memberFormDto.getName());
+//        System.out.println("이름: " + member.getName());
+        //소셜 로그인
+        if(httpSession.getAttribute("user") != null){
+            //email = ((SessionUser)httpSession.getAttribute("user")).getEmail();
+            System.out.println("a"+member.getName());
+            System.out.println("a"+member.getSex());
+            System.out.println("a"+member.getSkills());
+            System.out.println("a"+member.getStyle());
+
+        }
+        //일반 로그인
+        else {
+            System.out.println("b"+member.getName());
+            System.out.println("b"+member.getSex());
+            System.out.println("b"+member.getSkills());
+            System.out.println("b"+member.getStyle());
+        }
 
         // 모델에 회원 정보를 추가
         model.addAttribute("member", member);

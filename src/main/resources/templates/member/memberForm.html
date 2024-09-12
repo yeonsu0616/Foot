@@ -107,9 +107,9 @@
 
         .radio-group input[type="radio"]:checked + label,
         .checkbox-group input[type="checkbox"]:checked + label {
-            background-color: #007bff;
+            background-color: #228B22;
             color: white;
-            border-color: #007bff;
+            border-color: #228B22;
         }
     </style>
 </th:block>
@@ -359,7 +359,8 @@
 <!--            </div>-->
 
         <div style="text-align: center">
-            <button type="submit" class="btn btn-primary" style="">Submit</button>
+            <button type="submit" class="btn btn-primary" style="background-color: #228B22;
+    border-color: #228B22;">Submit</button>
         </div>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
     </form>

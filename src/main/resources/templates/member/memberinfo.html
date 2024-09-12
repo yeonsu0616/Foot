@@ -171,7 +171,9 @@ body {
         <div class="profile-info">
             <h2 th:text="${member.name}">회원 이름</h2>
             <div style="display:flex; gap:5px;">
-                <p th:text="${member.sex} + ' · ' + ${member.style} + ' · ' + ${member.skills}"></p>
+                <span th:if="${member.sex != null}" th:text="${member.sex}"></span>
+                <span th:if="${member.style != null}" th:text="' · ' + ${member.style}"></span>
+                <span th:if="${member.skills != null}" th:text="' · ' + ${member.skills}"></span>
             </div>
         </div>
         <div class="guide">

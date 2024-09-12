@@ -343,19 +343,30 @@
         }
 
         .comment-write textarea {
-            flex-grow: 1;
-            height: 100px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            resize: vertical;
-            margin-right: 10px;
-        }
+    flex-grow: 1;
+    height: 120px; /* 높이를 살짝 더 키움 */
+    padding: 15px; /* 여백을 늘려서 좀 더 여유롭게 */
+    border-radius: 20px; /* 모서리를 더 둥글게 변경 */
+    border: 1px solid #ccc; /* 경계선을 더 부드럽게 변경 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+    background-color: #f9f9f9; /* 배경색을 밝은 회색으로 */
+    font-size: 15px; /* 글씨 크기 약간 증가 */
+    font-family: 'Arial', sans-serif; /* 폰트 스타일 추가 */
+    resize: vertical;
+    margin-right: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.comment-write textarea:focus {
+    border-color: #6a5acd; /* 포커스 시 보라색 테두리 */
+    box-shadow: 0 3px 8px rgba(106, 90, 205, 0.3); /* 포커스 시 그림자 강조 */
+    outline: none; /* 기본 포커스 테두리 제거 */
+}
+
 
         #comment-write-btn {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #228B22;
             color: white;
             border: none;
             border-radius: 5px;
@@ -686,7 +697,7 @@
                         <button type="button" class="btn btn-light border custom-btn" onclick="addCart()">
                             <img src="/img/soccer (2).png" alt="찜,장바구니">
                         </button>
-                        <button type="button" class="btn btn-primary btn-lg" onclick="order()">신청하기</button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="order()">신청하기</button>
                     </div>
                     <div th:unless="${item.itemSellStatus == T(com.example.foot.constant.ItemSellStatus).SELL}"
                          class="text-right">

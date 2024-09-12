@@ -26,11 +26,11 @@ public class MemberFormDto {
     private String tel;
 
     // 성별 필드 추가
-    @NotBlank(message = "성별은 필수 입력 값입니다.")
+//    @NotBlank(message = "성별은 필수 입력 값입니다.")
     private String sex; // "남자", "여자"
 
     // 좋아하는 스타일 추가
-    @NotBlank(message = "스타일은 필수 입력 값입니다.")
+//    @NotBlank(message = "스타일은 필수 입력 값입니다.")
     private String style; // "공격", "밸런스", "수비"
 
     // 자신있는 능력 추가
