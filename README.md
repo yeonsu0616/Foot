@@ -25,4 +25,7 @@ CI/CD   : AWS EC2
 ## ✏구현 내용
 로그인 및 회원가입/ 간편 로그인/ 이메일 인증/ 상품 등록 및 수정/ 결제 Open API 사용 바로 주문, 장바구니 결제, 환불 / 지도 및 주소api/ 댓글 등록 및 삭제/ Selenium 자동 크롤링/ 실시간 채팅방/aws배포
 
+## AWS주소
+http://ec2-3-37-59-125.ap-northeast-2.compute.amazonaws.com/
+
 
