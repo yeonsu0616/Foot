@@ -22,11 +22,11 @@ public class MailService {
         MimeMessage message = emailSender.createMimeMessage();
 
         message.addRecipients(Message.RecipientType.TO, to);//보내는 대상
-        message.setSubject("공부하세요. 회원 가입 이메일 인증"); //제목
+        message.setSubject("F&F입니다. 회원 가입 이메일 인증"); //제목
 
         String msgg="";
         msgg+="<div style='margin:20px;'>";
-        msgg+="<h1> 안녕하세요 공부하세요입니다. </h1>";
+        msgg+="<h1> 안녕하세요 F&F입니다. </h1>";
         msgg+="<br>";
         msgg+="<p>아래 코드를 복사해 입력해주세요.<p>";
         msgg+="<br>";
@@ -39,7 +39,7 @@ public class MailService {
         msgg+= ePw+"</strong><div><br/>";
         msgg+="</div>";
         message.setText(msgg, "utf-8","html"); //내용
-        message.setFrom(new InternetAddress("p526847@naver.com","공부")); //properties에 입력한 이메일
+        message.setFrom(new InternetAddress("","F&F")); //properties에 입력한 이메일
 
         return message;
     }

@@ -32,9 +32,6 @@ public class MemberService implements UserDetailsService {
         return memberRepository.findByEmail(email);
     }
 
-//    public Member findByName(String name){
-//        return memberRepository.findByName(name);
-//    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -46,9 +43,6 @@ public class MemberService implements UserDetailsService {
         //빌더패턴
         return User.builder()
                 .username(member.getEmail())
-//                .sex(member.getSex())
-//                .style(member.getStyle())
-//                .skills(member.getSkills())
                 .password(member.getPassword())
                 .roles(member.getRole().toString())
                 .build();

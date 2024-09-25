@@ -44,9 +44,4 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
 
     @Query("SELECT i FROM Item i WHERE i.level = '아마추어 2이상'")
     List<Item> findByLevel2(String level);
-
-
-//    @Query("SELECT i FROM Item i WHERE i.id = :id")
-//    Optional<MainItemDto> findRItemById(Long id);
-
 }

@@ -123,8 +123,6 @@ public class ItemController {
         // item 정보 가져오기
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item",itemFormDto);
-//        itemFormDto.setItemImgDtoList(new ArrayList<>());
-//        model.addAttribute("itemFormDto",itemFormDto);
         //로그인 된 아이디 가져오기
         String email="";
         if(principal != null) {

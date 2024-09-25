@@ -38,9 +38,7 @@ public class CartController {
     private final CartService cartService;
     private final HttpSession httpSession;
     private final MemberService memberService;
-    private final OrderService orderService;
     private final OrderRepository orderRepository;
-    private final CartRepository cartRepository;
     private final ItemRepository itemRepository;
     private final CartItemRepository cartItemRepository;
 

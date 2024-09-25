@@ -40,8 +40,6 @@ public class MainItemDto {
         this.playDate=playDate;
     }
 
-//    public MainItemDto(Long id, String itemNm) {
-//    }
 
     public String getFormattedPlayTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");

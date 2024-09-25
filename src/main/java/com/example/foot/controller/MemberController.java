@@ -90,10 +90,6 @@ public class MemberController {
         }
         return new ResponseEntity<String>("인증 코드를 올바르게 입력해주세요.",HttpStatus.BAD_REQUEST);
     }
-//    @GetMapping(value = "/delivery")
-//    public String delivery(){
-//        return "/delivery/delivery tracking";
-//    }
 
     @GetMapping(value = "/invite")
     public String invite(){
@@ -122,12 +118,6 @@ public class MemberController {
 
     @GetMapping(value = "/memberinfo")
     public String memberinfo(@ModelAttribute MemberFormDto memberFormDto, Model model, Authentication authentication, Principal principal){
-//        String name = memberFormDto.getName();
-//        System.out.println("Received name: " + name );
-//
-//        Member member = memberService.findByName(name);
-//        model.addAttribute("member",member); // 모델에 멤버 정보를 추가
-//        System.out.println(name);
         // 로그인된 사용자의 이메일 가져오기
         String email = getEmailFromPrincipalOrSession(principal);
         String name = memberFormDto.getEmail();
@@ -135,7 +125,6 @@ public class MemberController {
         Member member = memberService.findByEmail(email);
         System.out.println("멤버 이름 : " +principal.getName());
         System.out.println("멤버 찐 이름: "+memberFormDto.getName());
-//        System.out.println("이름: " + member.getName());
         //소셜 로그인
         if(httpSession.getAttribute("user") != null){
             //email = ((SessionUser)httpSession.getAttribute("user")).getEmail();

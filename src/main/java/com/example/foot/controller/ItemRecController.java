@@ -24,7 +24,6 @@ public class ItemRecController {
         Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
         System.out.println(items.getNumber()+"!!!!!!!!!!");
         System.out.println(items.getTotalPages()+"#########");
-        //items.getContent().get(0).getImgUrl()
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto",itemSearchDto);
         model.addAttribute("maxPage",5);

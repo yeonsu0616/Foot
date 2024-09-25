@@ -28,10 +28,6 @@ import java.util.Optional;
 public class OrderController {
     private final OrderService orderService;
     private final HttpSession httpSession;
-    private final MemberService memberService;
-
-
-
 
     @PostMapping(value = "/order")
     public @ResponseBody

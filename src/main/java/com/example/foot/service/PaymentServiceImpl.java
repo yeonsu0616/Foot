@@ -139,26 +139,5 @@ public class PaymentServiceImpl implements PaymentService{
         cartDetailDtoList = cartItemRepository.findCartDetailDtoList(cart.getId());
         return cartDetailDtoList;
     }
-//    @Transactional(readOnly = true) //결제완료창에서 쓸거임
-//    public OrderHistDto getPaymentOrderList(String email){
-//        System.out.println("이메일"+email);
-//        Order order = orderRepository.findOrder(email);
-//        // Order -> OrderHistDto
-//        // OrderItem -> OrderItemDto
-//        // 주문 히스토리 객체 생성시 매개변수 -> 주문 // 객체 생성
-//        OrderHistDto orderHistDto = new OrderHistDto(order);
-//        // 주문에 있는 주문 아이템 리스트를 추출
-//        List<OrderItem> orderItems = order.getOrderItems();
-//        //주문 아이템 리스트에서 -> 주문 아이템
-//        for(OrderItem orderItem : orderItems){
-//            // 주문 아이템에 있는 item 을 추출하고 item id 를 매개변수로 입력
-//            ItemImg itemImg = itemImgRepository.findByItemIdAndRepImgYn(
-//                    // itemImg 객체를 추출 -> 조건 "Y" 대표 이미지 ItemImg
-//                    orderItem.getItem().getId(), "Y");
-//            // OrderItemDto 객체를 생성 -> 매개변수 orderItem 객체, itemImg -> url
-//            OrderItemDto orderItemDto = new OrderItemDto(orderItem, itemImg.getImgUrl());
-//            orderHistDto.addOrderItemDto(orderItemDto);
-//        }
-//        return orderHistDto;
-//    }
+
 }

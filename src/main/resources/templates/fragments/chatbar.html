@@ -179,36 +179,33 @@
 
 <!-- JavaScript 코드 -->
 <script>
-
     $(document).ready(function () {
        var currentUser = "anonymous"; // 기본값: 비로그인 사용자
        var isAdmin; // 기본값: 운영자 여부
-        $.get('/chat/current-user', function(data) {
-               currentUser = data;  // 서버에서 가져온 사용자 이름
-                // 서버에서 가져온 사용자 운영자 여부
-               console.log('현재 사용자:', currentUser);
 
-           });
+        // 서버에서 현재 사용자 이름 가져오기
+        $.get('/chat/current-user', function(data) {
+            currentUser = data;  // 서버에서 가져온 사용자 이름
+            console.log('현재 사용자:', currentUser);  // 사용자 이름 콘솔 출력
+        });
 
        // 채팅 모달 열기
        $('#chat-toggle-btn').click(function () {
-           $('#chatModal').modal('show');
+           $('#chatModal').modal('show');  // 채팅 모달 표시
 
-           // 서버에서 현재 로그인한 사용자 정보 가져오기 (GET 요청)
-
+           // 서버에서 현재 사용자의 역할(Role) 정보 가져오기
            $.get('/chat/current-role', function(data) {
-               isAdmin = data;  // 서버에서 가져온 사용자 이름
-                // 서버에서 가져온 사용자 운영자 여부
-               console.log('현재 권한:', data);
+               isAdmin = data;  // 서버에서 가져온 사용자 역할 정보
+               console.log('현재 권한:', data);  // 역할 정보를 콘솔에 출력
 
                // 운영자인 경우 채팅 삭제 버튼 표시
-               if (isAdmin=="ADMIN") {
-                   $('#clear-chat-btn').show();
+               if (isAdmin == "ADMIN") {
+                   $('#clear-chat-btn').show();  // 채팅 기록 삭제 버튼 표시
                }
            });
 
-           // 저장된 채팅 기록 불러오기 전에 기존 내용 초기화
-           $('#chat-box').empty();  // 채팅창 초기화
+           // 기존 채팅 내용을 초기화하고 채팅 기록 불러오기
+           $('#chat-box').empty();  // 채팅창 내용 초기화
            loadChatHistory();  // 채팅 기록 불러오기
        });
 
@@ -216,68 +213,68 @@
        var stompClient = null;
 
        function connect() {
-           var socket = new SockJS('/chat-websocket');  // '/chat-websocket' 엔드포인트로 웹소켓 연결
-           stompClient = Stomp.over(socket);
-           stompClient.connect({}, function (frame) {
-               console.log('웹소켓 연결됨: ' + frame);
-               stompClient.subscribe('/topic/messages', function (messageOutput) {
-                   var message = JSON.parse(messageOutput.body);
-                   showMessage(message);  // 서버로부터 수신한 메시지 표시
-                   saveChatHistory(message);  // 받은 메시지 저장
+           var socket = new SockJS('/chat-websocket');  // '/chat-websocket' 엔드포인트로 SockJS 웹소켓 연결
+           stompClient = Stomp.over(socket);  // StompJS로 소켓을 감쌈
+           stompClient.connect({}, function (frame) {  // 웹소켓 연결 시 콜백 함수
+               console.log('웹소켓 연결됨: ' + frame);  // 연결 성공 시 콘솔에 출력
+               stompClient.subscribe('/topic/messages', function (messageOutput) {  // '/topic/messages' 채널 구독
+                   var message = JSON.parse(messageOutput.body);  // 수신한 메시지를 JSON으로 파싱
+                   showMessage(message);  // 수신한 메시지 화면에 표시
+                   saveChatHistory(message);  // 수신한 메시지를 로컬스토리지에 저장
                });
            });
        }
 
        // 메시지 전송 함수
        function sendMessage() {
-           const messageContent = document.getElementById("chatMessage").value;
-           if (messageContent && stompClient) {
-               stompClient.send("/app/chat", {}, JSON.stringify({'content': messageContent}));
-               document.getElementById("chatMessage").value = '';  // 입력창 비우기
+           const messageContent = document.getElementById("chatMessage").value;  // 입력한 메시지 가져오기
+           if (messageContent && stompClient) {  // 메시지 내용과 stompClient가 존재하는 경우
+               stompClient.send("/app/chat", {}, JSON.stringify({'content': messageContent}));  // 웹소켓을 통해 메시지 전송
+               document.getElementById("chatMessage").value = '';  // 메시지 전송 후 입력창 비우기
            }
        }
 
-       // 수신한 메시지를 채팅창에 표시 (내가 보낸 메시지와 다른 사람 메시지를 구분)
+       // 수신한 메시지를 채팅창에 표시하는 함수
        function showMessage(message) {
-           var chatBox = document.getElementById("chat-box");
-           var senderName = message.sender;
-           var messageContent = message.content;
+           var chatBox = document.getElementById("chat-box");  // 채팅창 DOM 요소 가져오기
+           var senderName = message.sender;  // 메시지의 송신자
+           var messageContent = message.content;  // 메시지 내용
 
-           var messageElement = document.createElement("div");
+           var messageElement = document.createElement("div");  // 새로운 div 요소 생성
 
-           // 내 메시지인지 확인하기 위해 'currentUser'와 'senderName' 비교
+           // 내가 보낸 메시지인지 확인하기 위해 'currentUser'와 'senderName' 비교
            if (senderName === currentUser) {
-               messageElement.classList.add("my-message");
+               messageElement.classList.add("my-message");  // 내 메시지일 경우 스타일 적용
            } else {
-               messageElement.classList.add("other-message");
+               messageElement.classList.add("other-message");  // 다른 사용자의 메시지일 경우 스타일 적용
            }
 
-           messageElement.innerHTML = "<strong>" + senderName + ":</strong> " + messageContent;
-           chatBox.appendChild(messageElement);
+           messageElement.innerHTML = "<strong>" + senderName + ":</strong> " + messageContent;  // 메시지 내용 설정
+           chatBox.appendChild(messageElement);  // 메시지를 채팅창에 추가
            chatBox.scrollTop = chatBox.scrollHeight;  // 스크롤을 자동으로 아래로 이동
        }
 
-       // 채팅 기록을 localStorage에 저장
+       // 채팅 기록을 localStorage에 저장하는 함수
        function saveChatHistory(message) {
-           let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-           chatHistory.push(message);
-           localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+           let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];  // 기존 채팅 기록을 로드하거나 빈 배열 초기화
+           chatHistory.push(message);  // 새 메시지를 기록에 추가
+           localStorage.setItem('chatHistory', JSON.stringify(chatHistory));  // 업데이트된 기록을 localStorage에 저장
        }
 
-       // 채팅 기록을 불러와서 표시
+       // 저장된 채팅 기록을 불러와서 화면에 표시하는 함수
        function loadChatHistory() {
-           let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+           let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];  // 저장된 채팅 기록 불러오기
            chatHistory.forEach(function(message) {
-               showMessage(message);
+               showMessage(message);  // 각 메시지를 화면에 표시
            });
        }
 
-       // 채팅 기록 삭제 (운영자만 가능)
+       // 채팅 기록 삭제 버튼 클릭 시 처리
        $('#clear-chat-btn').click(function() {
-           if (isAdmin) {
+           if (isAdmin) {  // 운영자인 경우에만 기록 삭제 가능
                localStorage.removeItem('chatHistory');  // localStorage에서 채팅 기록 삭제
                $('#chat-box').empty();  // 화면에서 채팅 메시지 삭제
-               alert("채팅 기록이 삭제되었습니다.");
+               alert("채팅 기록이 삭제되었습니다.");  // 알림 메시지 표시
            }
        });
 

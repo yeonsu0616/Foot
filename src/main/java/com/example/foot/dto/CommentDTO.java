@@ -23,7 +23,6 @@ public class CommentDTO {
         commentDTO.setCommentWriter(commentEntity.getCommentWriter());
         commentDTO.setCommentContents(commentEntity.getCommentContents());
         commentDTO.setCommentCreatedTime(commentEntity.getRegTime());
-        //commentDTO.setItemId(commentEntity.getItem().getId()); // Service 메서드에 @Transactional
         commentDTO.setItemId(itemId);
         return commentDTO;
     }

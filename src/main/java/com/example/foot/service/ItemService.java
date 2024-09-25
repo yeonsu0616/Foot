@@ -93,18 +93,6 @@ public class ItemService {
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
-//    @Transactional(readOnly = true)
-//    public List<MainItemDto> getRandomItems(int count) {
-//        List<Item> items = itemRepository.findRandomItems();
-//        List<MainItemDto> mainItemDtos = new ArrayList<>();
-//
-//        for (Item item : items) {
-//            MainItemDto mainItemDto = MainItemDto.of(item); // Item을 MainItemDto로 변환
-//            mainItemDtos.add(mainItemDto); // 리스트에 추가
-//        }
-//
-//        return mainItemDtos.stream().limit(count).toList(); // 최대 count 개수로 제한
-//    }
 
     @Transactional(readOnly = true)
     public List<Item> getItemAll(){
@@ -176,29 +164,4 @@ public class ItemService {
         itemRepository.save(item);
     }
 
-//    public List<MainItemDto> getRecentItemsFromSession(List<MainItemDto> recentItems, MainItemDto mainItemDto) {
-//        if (recentItems == null) {
-//            recentItems = new ArrayList<>();
-//        }
-//
-//        // 기존 리스트에서 중복된 항목 제거
-//        recentItems.removeIf(item -> item.getId().equals(mainItemDto.getId()));
-//
-//        // 리스트에 새 항목 추가
-//        recentItems.add(0, mainItemDto);
-//
-//        // 리스트 크기 제한
-//        if (recentItems.size() > 5) {
-//            recentItems = recentItems.subList(0, 5);
-//        }
-//
-//        return recentItems;
-//    }
-//
-//    public MainItemDto findRItemById(Long id) {
-//        return itemRepository.findById(id)
-//                .map(item -> new MainItemDto(item.getId(), item.getItemNm(), item.getItemDetail(), item.getGender(), item.getPrice(), item.getPlayTime(),
-//                        item.getMatchInfo(),item.getItemSellStatus(),item.getLevel(),item.getPlayDate(),item.getPlayAddress()))
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid item ID: " + id));
-//    }
 }
