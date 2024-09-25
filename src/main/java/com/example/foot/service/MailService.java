@@ -39,7 +39,7 @@ public class MailService {
         msgg+= ePw+"</strong><div><br/>";
         msgg+="</div>";
         message.setText(msgg, "utf-8","html"); //내용
-        message.setFrom(new InternetAddress("","F&F")); //properties에 입력한 이메일
+        message.setFrom(new InternetAddress("p526847@naver.com","F&F")); //properties에 입력한 이메일
 
         return message;
     }
